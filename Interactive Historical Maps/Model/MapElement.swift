@@ -61,6 +61,7 @@ class Path : MapElement {
         return previous
     }
     
+    // Overlays with editing should be allowed to return nil
     func polyline(for date: HistoricalDate) -> MKPolyline {
         let keys = sequence.keys.sorted().filter { (key) -> Bool in
             key <= date.rawValue
@@ -77,6 +78,11 @@ class Path : MapElement {
     }
     
     func extend(on date: HistoricalDate, to point: CLLocationCoordinate2D) {
+        sequence = sequence.filter({ (arg0) -> Bool in
+            let (key, _) = arg0
+            return key < date.rawValue
+        })
+        
         let previous = self.last()
         let newCount = previous.pointCount + 1
         let points = previous.points()

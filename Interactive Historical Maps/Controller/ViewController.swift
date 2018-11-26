@@ -31,7 +31,7 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
     var earliest : HistoricalDate = HistoricalDate(month: 8, year: 1332)
     var latest : HistoricalDate = HistoricalDate(month: 2, year: 1346)
     
-    let rateOfChange = 2
+    let timeIncrement = 2
     
     
     @IBOutlet weak var yearLabel: UILabel!
@@ -51,12 +51,19 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
     
     @IBAction func doneClicked(_ sender: Any) {
         mode = .viewing
+        elements.append(element!)
+        
+        element = nil
+        updateMap()
         updateUI()
     }
     
     
     @IBAction func cancelClicked(_ sender: Any) {
         mode = .viewing
+       
+        element = nil
+        updateMap()
         updateUI()
     }
     
@@ -96,7 +103,6 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
                 let coordinate = mapView.convert(touch, toCoordinateFrom: mapView)
                 
                 let point = Point(from: date.copy, to: date.copy, at: coordinate)
-                print(date.copy)
                 add(element: point)
                 updateMap()
             }
@@ -108,29 +114,45 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
                 
                 element = Path(on: date.copy, at: coordinate)
                 
+                mode = .editingPath
+                
+                updateUI()
                 updateDate()
                 updateMap()
+            case .cancelled, .failed, .possible:
+                element = nil
+                mode = .viewing
+            default:
+                assert(false, "Should have changed to .editing")
+            }
+        case .editingPath:
+            switch recognizer.state {
+            case .began:
+                break
             case .changed:
                 let touch = recognizer.location(in: mapView)
                 let coordinate = mapView.convert(touch, toCoordinateFrom: mapView)
                 
-                date.advance(by: rateOfChange)
-                let path = element as! Path
-                path.extend(on: date.copy, to: coordinate)
+                if date + timeIncrement < latest {
+                    date += timeIncrement
+                    let path = element as! Path
+                    path.extend(on: date.copy, to: coordinate)
+                } else {
+                    recognizer.state = .ended
+                }
                 
                 updateDate()
                 updateMap()
             case .ended:
                 let path = element as! Path
-                date.advance(by: rateOfChange)
+                date += timeIncrement
                 path.end(on: date.copy)
-                elements.append(path)
-                element = nil
                 
                 updateDate()
                 updateMap()
             case .cancelled, .failed, .possible:
-                break
+                element = nil
+                mode = .viewing
             }
         default:
             break
@@ -143,6 +165,8 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
         case is Point:
             if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
                 annotationView.annotation = annotation
+                let calloutView = annotationView.detailCalloutAccessoryView as! CalloutView
+                calloutView.element = annotation as! Point
                 return annotationView
             } else {
                 // TODO: Make this another function
@@ -165,7 +189,6 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
                 
                 annotationView.isEnabled = true
                 annotationView.canShowCallout = true
-                annotationView.leftCalloutAccessoryView = nil
                 return annotationView
             }
         default:
@@ -238,10 +261,11 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
     func updateDate() {
         monthLabel.text = date.month
         yearLabel.text = date.year
+        slider.value = Float(date.rawValue)
     }
     
     func updateMap() {
-        let oldAnnotations = mapView.annotations
+        var oldAnnotations = mapView.annotations as! [Point]
         mapView.removeAnnotations(oldAnnotations)
         
         let oldOverlays = mapView.overlays
@@ -254,25 +278,50 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
         let newMapObjects = currentElements.map { (element) -> MKAnnotation in
             element.annotation(for: date)
         }
-        var newAnnotations = newMapObjects.filter { (annotation) -> Bool in
+        
+        let newAnnotations = newMapObjects.filter { (annotation) -> Bool in
             !(annotation is MKOverlay)
         }
-        var newOverlays = newMapObjects.filter { (annotation) -> Bool in
+        let newOverlays = newMapObjects.filter { (annotation) -> Bool in
             annotation is MKOverlay
         } as! [MKOverlay]
+        
+//        let newDivider = newAnnotations.partition { (newAnnotation) -> Bool in
+//            oldAnnotations.contains(where: { (oldAnnotation) -> Bool in
+//                oldAnnotation.isEqual(newAnnotation)
+//            })
+//        }
+//
+//        let oldDivider = oldAnnotations.partition { (oldAnnotation) -> Bool in
+//            !newAnnotations.contains(where: { (newAnnotation) -> Bool in
+//                oldAnnotation.isEqual(newAnnotation)
+//            })
+//        }
+//
+//        if newDivider <= newAnnotations.count {
+//             let annotationsToAdd = Array(newAnnotations[0..<newDivider])
+//             mapView.addAnnotations(annotationsToAdd)
+//             print("added", annotationsToAdd)
+//        }
+//
+//        if oldDivider <= oldAnnotations.count {
+//            let annotationsToRemove = Array(oldAnnotations[0..<oldDivider])
+//            mapView.removeAnnotations(annotationsToRemove)
+//            print("removed", annotationsToRemove)
+//        }
         
         if element != nil {
             switch element {
             case is Point:
-                 newAnnotations.append(element!.annotation(for: date))
+                 mapView.addAnnotation(element!.annotation(for: date))
             case is Path:
-                 newOverlays.append(element!.annotation(for: date) as! MKOverlay)
+                 mapView.addOverlay(element!.annotation(for: date) as! MKOverlay)
             default:
                 assert(false, "unhandled element type")
             }
         }
-        mapView.addAnnotations(newAnnotations)
         mapView.addOverlays(newOverlays)
+        mapView.addAnnotations(newAnnotations)
     }
     
 }

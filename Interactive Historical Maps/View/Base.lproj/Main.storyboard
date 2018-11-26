@@ -133,7 +133,7 @@
                                         </constraints>
                                     </view>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="2AY-zX-qji">
-                                        <rect key="frame" x="107" y="26" width="997" height="31"/>
+                                        <rect key="frame" x="107" y="26" width="982" height="31"/>
                                         <connections>
                                             <action selector="sliderChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="LdD-cy-qEV"/>
                                         </connections>
@@ -144,7 +144,7 @@
                                     <constraint firstItem="7lE-X9-5ox" firstAttribute="height" secondItem="rUS-fH-bBp" secondAttribute="height" id="1cm-gj-Vb6"/>
                                     <constraint firstItem="7lE-X9-5ox" firstAttribute="centerY" secondItem="rUS-fH-bBp" secondAttribute="centerY" id="7RW-OU-RGR"/>
                                     <constraint firstItem="7lE-X9-5ox" firstAttribute="leading" secondItem="rUS-fH-bBp" secondAttribute="leading" constant="10" id="DRf-QE-1NW"/>
-                                    <constraint firstAttribute="trailing" secondItem="2AY-zX-qji" secondAttribute="trailing" constant="10" id="d35-zZ-0RO"/>
+                                    <constraint firstAttribute="trailing" secondItem="2AY-zX-qji" secondAttribute="trailing" constant="25" id="d35-zZ-0RO"/>
                                     <constraint firstItem="2AY-zX-qji" firstAttribute="centerY" secondItem="rUS-fH-bBp" secondAttribute="centerY" id="qxf-3b-hZw"/>
                                     <constraint firstItem="2AY-zX-qji" firstAttribute="leading" secondItem="7lE-X9-5ox" secondAttribute="trailing" constant="15" id="xiN-Or-3dY"/>
                                 </constraints>

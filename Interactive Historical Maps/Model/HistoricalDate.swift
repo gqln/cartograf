@@ -29,16 +29,20 @@ class HistoricalDate : CustomStringConvertible {
         self.rawValue = rawValue
     }
     
-    func advance(by interval: Int) {
-        self.rawValue += interval
-    }
-    
     var description: String { return "\(month) \(year)" }
     var copy: HistoricalDate { return HistoricalDate(self.rawValue) }
     
     static let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
     static var zero : HistoricalDate { return HistoricalDate(month: 0, year: 0) }
+    
+    static func + (lhs: HistoricalDate, rhs: Int) -> HistoricalDate {
+        return HistoricalDate(lhs.rawValue + rhs)
+    }
+    
+    static func += (lhs: inout HistoricalDate, rhs: Int) {
+        lhs.rawValue += rhs
+    }
     
     static func == (lhs: HistoricalDate, rhs: HistoricalDate) -> Bool {
         return lhs.rawValue == rhs.rawValue
