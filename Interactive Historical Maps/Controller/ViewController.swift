@@ -22,6 +22,8 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
     @IBOutlet weak var mapView: MKMapView!
     
     var element : MapElement?
+    
+    // Elements should become two different arrays, as overlays and annotations are treated very differently
     var elements : [MapElement] = []
     var mode : MapMode = .viewing
     
@@ -166,10 +168,6 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
                 annotationView.leftCalloutAccessoryView = nil
                 return annotationView
             }
-        case is Path:
-            return nil
-        case is MKOverlay:
-            return nil
         default:
             return nil
         }
@@ -246,19 +244,35 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
         let oldAnnotations = mapView.annotations
         mapView.removeAnnotations(oldAnnotations)
         
+        let oldOverlays = mapView.overlays
+        mapView.removeOverlays(oldOverlays)
+        
         let currentElements = elements.filter { (element) -> Bool in
             element.start <= date && date <= element.end
         }
         
-        var newAnnotations = currentElements.map { (element) -> MKAnnotation in
+        let newMapObjects = currentElements.map { (element) -> MKAnnotation in
             element.annotation(for: date)
         }
+        var newAnnotations = newMapObjects.filter { (annotation) -> Bool in
+            !(annotation is MKOverlay)
+        }
+        var newOverlays = newMapObjects.filter { (annotation) -> Bool in
+            annotation is MKOverlay
+        } as! [MKOverlay]
         
         if element != nil {
-            newAnnotations.append(element!.annotation(for: date))
+            switch element {
+            case is Point:
+                 newAnnotations.append(element!.annotation(for: date))
+            case is Path:
+                 newOverlays.append(element!.annotation(for: date) as! MKOverlay)
+            default:
+                assert(false, "unhandled element type")
+            }
         }
-        
         mapView.addAnnotations(newAnnotations)
+        mapView.addOverlays(newOverlays)
     }
     
 }
