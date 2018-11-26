@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB81A5D521A9029A009C3792 /* MapElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5D421A9029A009C3792 /* MapElement.swift */; };
+		EB81A5DB21ABA201009C3792 /* CalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB81A5D921ABA201009C3792 /* CalloutView.xib */; };
+		EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5DA21ABA201009C3792 /* CalloutView.swift */; };
+		EB81A5DE21ABAE1C009C3792 /* HistoricalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */; };
 		EBF39488218D0B000038CE18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF39487218D0B000038CE18 /* AppDelegate.swift */; };
 		EBF3948A218D0B000038CE18 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF39489218D0B000038CE18 /* ViewController.swift */; };
 		EBF3948D218D0B000038CE18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF3948B218D0B000038CE18 /* Main.storyboard */; };
@@ -26,6 +30,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB81A5D421A9029A009C3792 /* MapElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapElement.swift; sourceTree = "<group>"; };
+		EB81A5D921ABA201009C3792 /* CalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalloutView.xib; sourceTree = "<group>"; };
+		EB81A5DA21ABA201009C3792 /* CalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
+		EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoricalDate.swift; path = "/Users/goki/Box Sync/FA18/CS475/Projects/Interactive Historical Maps/Interactive Historical Maps/Model/HistoricalDate.swift"; sourceTree = "<absolute>"; };
 		EBF39484218D0B000038CE18 /* Interactive Historical Maps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Interactive Historical Maps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBF39487218D0B000038CE18 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBF39489218D0B000038CE18 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +64,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB81A5D621ABA1D6009C3792 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EB81A5DA21ABA201009C3792 /* CalloutView.swift */,
+				EB81A5D921ABA201009C3792 /* CalloutView.xib */,
+				EBF3948B218D0B000038CE18 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EB81A5D721ABA1DB009C3792 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */,
+				EB81A5D421A9029A009C3792 /* MapElement.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EB81A5D821ABA1E8009C3792 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				EBF39487218D0B000038CE18 /* AppDelegate.swift */,
+				EBF39489218D0B000038CE18 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		EBF3947B218D0AFF0038CE18 = {
 			isa = PBXGroup;
 			children = (
@@ -77,9 +113,9 @@
 		EBF39486218D0B000038CE18 /* Interactive Historical Maps */ = {
 			isa = PBXGroup;
 			children = (
-				EBF39487218D0B000038CE18 /* AppDelegate.swift */,
-				EBF39489218D0B000038CE18 /* ViewController.swift */,
-				EBF3948B218D0B000038CE18 /* Main.storyboard */,
+				EB81A5D821ABA1E8009C3792 /* Controller */,
+				EB81A5D721ABA1DB009C3792 /* Model */,
+				EB81A5D621ABA1D6009C3792 /* View */,
 				EBF3948E218D0B010038CE18 /* Assets.xcassets */,
 				EBF39490218D0B010038CE18 /* LaunchScreen.storyboard */,
 				EBF39493218D0B010038CE18 /* Info.plist */,
@@ -180,6 +216,7 @@
 				EBF39492218D0B010038CE18 /* LaunchScreen.storyboard in Resources */,
 				EBF3948F218D0B010038CE18 /* Assets.xcassets in Resources */,
 				EBF3948D218D0B000038CE18 /* Main.storyboard in Resources */,
+				EB81A5DB21ABA201009C3792 /* CalloutView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,7 +235,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBF3948A218D0B000038CE18 /* ViewController.swift in Sources */,
+				EB81A5DE21ABAE1C009C3792 /* HistoricalDate.swift in Sources */,
 				EBF39488218D0B000038CE18 /* AppDelegate.swift in Sources */,
+				EB81A5D521A9029A009C3792 /* MapElement.swift in Sources */,
+				EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +403,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SSJY8STF55;
 				INFOPLIST_FILE = "Interactive Historical Maps/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -370,7 +411,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.psu.cse.gxg5186.Interactive-Historical-Maps";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -381,6 +422,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SSJY8STF55;
 				INFOPLIST_FILE = "Interactive Historical Maps/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,7 +430,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.psu.cse.gxg5186.Interactive-Historical-Maps";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
