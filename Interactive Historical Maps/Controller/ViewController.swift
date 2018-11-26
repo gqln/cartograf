@@ -265,7 +265,7 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
     }
     
     func updateMap() {
-        var oldAnnotations = mapView.annotations as! [Point]
+        let oldAnnotations = mapView.annotations as! [Point]
         mapView.removeAnnotations(oldAnnotations)
         
         let oldOverlays = mapView.overlays
