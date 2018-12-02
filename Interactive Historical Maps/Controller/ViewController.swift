@@ -21,13 +21,16 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     
+    let model = Model.shared
+    
     var element : MapElement?
+    
+    var crumb : CrumbPath?
     
     // Elements should become two different arrays, as overlays and annotations are treated very differently
     var elements : [MapElement] = []
     var mode : MapMode = .viewing
     
-    var date : HistoricalDate = HistoricalDate(month: 8, year: 1332)
     var earliest : HistoricalDate = HistoricalDate(month: 8, year: 1332)
     var latest : HistoricalDate = HistoricalDate(month: 2, year: 1346)
     
@@ -44,9 +47,11 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
     @IBOutlet weak var cancelButton: UIButton!
     
     @IBAction func sliderChanged(_ sender: Any) {
-        date.rawValue = Int(slider.value)
+        model.date.rawValue = Int(slider.value)
         updateDate()
         updateMap()
+        
+        redraw()
     }
     
     @IBAction func doneClicked(_ sender: Any) {
@@ -71,7 +76,7 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
         super.viewDidLoad()
         
         mapView.delegate = self
-        
+        model.date = earliest
         // Gestures
         let pressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
         pressGesture.minimumPressDuration = 1.0
@@ -80,21 +85,26 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
         
         
         // Example Data -- REMOVE EVENTUALLY
-        let element1 = Point(from: HistoricalDate(month: 4, year: 1333), to: HistoricalDate(month: 3, year: 1335), at: CLLocationCoordinate2D(latitude: 34.642763, longitude: -97.327818))
-        let element2 = Point(from: earliest, to: HistoricalDate(month: 3, year: 1338), at: CLLocationCoordinate2D(latitude: 37.642763, longitude: -99.327818))
-        let element3 = Point(from: HistoricalDate(month: 2, year: 1339), to: latest, at: CLLocationCoordinate2D(latitude: 38.642763, longitude: -98.327818))
-        add(element: element1)
-        add(element: element2)
-        add(element: element3)
+//        let element1 = Point(from: HistoricalDate(month: 4, year: 1333), to: HistoricalDate(month: 3, year: 1335), at: CLLocationCoordinate2D(latitude: 34.642763, longitude: -97.327818))
+//        let element2 = Point(from: earliest, to: HistoricalDate(month: 3, year: 1338), at: CLLocationCoordinate2D(latitude: 37.642763, longitude: -99.327818))
+//        let element3 = Point(from: HistoricalDate(month: 2, year: 1339), to: latest, at: CLLocationCoordinate2D(latitude: 38.642763, longitude: -98.327818))
+//        add(element: element1)
+//        add(element: element2)
+//        add(element: element3)
         
         slider.minimumValue = Float(earliest.rawValue)
         slider.maximumValue = Float(latest.rawValue)
-        slider.value = Float(date.rawValue)
+        slider.value = Float(model.date.rawValue)
         
         updateDate()
         updateMap()
     }
     
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+    }
+    
+    // Timer and animation to indicate press here
     @objc func longPress(_ recognizer: UIGestureRecognizer) {
         switch mode {
         case .viewing:
@@ -102,7 +112,7 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
                 let touch = recognizer.location(in: mapView)
                 let coordinate = mapView.convert(touch, toCoordinateFrom: mapView)
                 
-                let point = Point(from: date.copy, to: date.copy, at: coordinate)
+                let point = Point(from: model.date.copy, to: model.date.copy, at: coordinate)
                 add(element: point)
                 updateMap()
             }
@@ -112,7 +122,8 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
                 let touch = recognizer.location(in: mapView)
                 let coordinate = mapView.convert(touch, toCoordinateFrom: mapView)
                 
-                element = Path(on: date.copy, at: coordinate)
+                element = Path(on: model.date.copy, at: coordinate)
+                crumb = CrumbPath(center: coordinate)
                 
                 mode = .editingPath
                 
@@ -132,21 +143,30 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
             case .changed:
                 let touch = recognizer.location(in: mapView)
                 let coordinate = mapView.convert(touch, toCoordinateFrom: mapView)
-                
-                if date + timeIncrement < latest {
-                    date += timeIncrement
-                    let path = element as! Path
-                    path.extend(on: date.copy, to: coordinate)
+                let mapPoint = MKMapPoint(coordinate)
+                // TIMER
+                if model.date + timeIncrement < latest {
+                    model.date += timeIncrement
+                    var rectChanged : Bool = false
+                    let rect = crumb!.addCoordinate(coordinate, boundingMapRectChanged: &rectChanged, on: model.date)
+                    
+//                    let path = element as! Path
+//                    path.extend(on: model.date.copy, to: mapPoint)
                 } else {
+                    mapView.addOverlay(crumb!)
+                    crumb = nil
                     recognizer.state = .ended
                 }
                 
+                
+                
                 updateDate()
                 updateMap()
+                redraw()
             case .ended:
-                let path = element as! Path
-                date += timeIncrement
-                path.end(on: date.copy)
+//                let path = element as! Path
+                model.date += timeIncrement
+//                path.end(on: model.date.copy)
                 
                 updateDate()
                 updateMap()
@@ -200,11 +220,36 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
         switch overlay {
         case is MKPolyline:
             let line = MKPolylineRenderer(polyline: overlay as! MKPolyline)
-            line.strokeColor = UIColor.blue
+            let rand = Bool.random()
+            line.strokeColor = rand ? UIColor.blue : UIColor.orange
             line.lineWidth = 4.0
             return line
+        case is Path:
+            let renderer = PathRenderer(overlay as! Path)
+            renderer.lineWidth = 40.0
+            renderer.strokeColor = UIColor.red
+            return renderer
+        case is CrumbPath:
+            return CrumbPathRenderer(overlay: overlay)
         default:
             assert(false, "Unhandled Overlay")
+        }
+    }
+    
+    let world = MKMapRect.world
+    
+    func redraw() {
+        for overlay in mapView.overlays {
+            switch overlay {
+            case is CrumbPath:
+                let renderer = mapView.renderer(for: overlay) as! CrumbPathRenderer
+                renderer.setNeedsDisplay(MKMapRect.world)
+            case is Path:
+                let renderer = mapView.renderer(for: overlay) as! PathRenderer
+                renderer.invalidatePath()
+            default:
+                break
+            }
         }
     }
     
@@ -259,32 +304,31 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
     }
     
     func updateDate() {
-        monthLabel.text = date.month
-        yearLabel.text = date.year
-        slider.value = Float(date.rawValue)
+        monthLabel.text = model.date.month
+        yearLabel.text = model.date.year
+        slider.value = Float(model.date.rawValue)
     }
     
     func updateMap() {
-        let oldAnnotations = mapView.annotations as! [Point]
-        mapView.removeAnnotations(oldAnnotations)
-        
-        let oldOverlays = mapView.overlays
-        mapView.removeOverlays(oldOverlays)
-        
-        let currentElements = elements.filter { (element) -> Bool in
-            element.start <= date && date <= element.end
-        }
-        
-        let newMapObjects = currentElements.map { (element) -> MKAnnotation in
-            element.annotation(for: date)
-        }
-        
-        let newAnnotations = newMapObjects.filter { (annotation) -> Bool in
-            !(annotation is MKOverlay)
-        }
-        let newOverlays = newMapObjects.filter { (annotation) -> Bool in
-            annotation is MKOverlay
-        } as! [MKOverlay]
+//        let oldAnnotations = mapView.annotations as! [Point]
+//        
+//        let oldOverlays = mapView.overlays
+//
+//        
+//        let currentElements = elements.filter { (element) -> Bool in
+//            element.startDate <= date && date <= element.endDate
+//        }
+//        
+//        let newMapObjects = currentElements.map { (element) -> MKAnnotation in
+//            element.annotation(for: date)
+//        }
+//        
+//        let newAnnotations = newMapObjects.filter { (annotation) -> Bool in
+//            !(annotation is MKOverlay)
+//        }
+//        let newOverlays = newMapObjects.filter { (annotation) -> Bool in
+//            annotation is MKOverlay
+//        } as! [MKOverlay]
         
 //        let newDivider = newAnnotations.partition { (newAnnotation) -> Bool in
 //            oldAnnotations.contains(where: { (oldAnnotation) -> Bool in
@@ -313,15 +357,24 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
         if element != nil {
             switch element {
             case is Point:
-                 mapView.addAnnotation(element!.annotation(for: date))
+                 mapView.addAnnotation(element!.annotation(for: model.date))
             case is Path:
-                 mapView.addOverlay(element!.annotation(for: date) as! MKOverlay)
+                 mapView.addOverlay(element as! Path)
             default:
                 assert(false, "unhandled element type")
             }
         }
-        mapView.addOverlays(newOverlays)
-        mapView.addAnnotations(newAnnotations)
+        
+        if crumb != nil {
+            mapView.addOverlay(crumb!)
+        }
+//        mapView.addOverlays(newOverlays)
+//
+//        mapView.removeOverlays(oldOverlays)
+//
+//        mapView.addAnnotations(newAnnotations)
+//
+//        mapView.removeAnnotations(oldAnnotations)
     }
     
 }

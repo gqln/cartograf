@@ -7,3 +7,16 @@
 //
 
 import Foundation
+
+class Model {
+    
+    static let shared = Model()
+    
+    let maps : [Map]
+    var date : HistoricalDate
+    
+    private init() {
+        maps = []
+        date = HistoricalDate.init(0)
+    }
+}

@@ -11,6 +11,11 @@
 		EB81A5DB21ABA201009C3792 /* CalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB81A5D921ABA201009C3792 /* CalloutView.xib */; };
 		EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5DA21ABA201009C3792 /* CalloutView.swift */; };
 		EB81A5DE21ABAE1C009C3792 /* HistoricalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */; };
+		EB917D1421B32626009D5953 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EB917D1221B32626009D5953 /* Model.xcdatamodeld */; };
+		EB917D4521B352DC009D5953 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB917D4421B352DC009D5953 /* Model.swift */; };
+		EB917D4721B354C2009D5953 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB917D4621B354C2009D5953 /* Map.swift */; };
+		EB917D4921B4639C009D5953 /* CrumbPathRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB917D4821B4639C009D5953 /* CrumbPathRenderer.swift */; };
+		EB917D4B21B463B3009D5953 /* CrumbPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB917D4A21B463B3009D5953 /* CrumbPath.swift */; };
 		EBF39488218D0B000038CE18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF39487218D0B000038CE18 /* AppDelegate.swift */; };
 		EBF3948A218D0B000038CE18 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF39489218D0B000038CE18 /* ViewController.swift */; };
 		EBF3948D218D0B000038CE18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF3948B218D0B000038CE18 /* Main.storyboard */; };
@@ -34,6 +39,11 @@
 		EB81A5D921ABA201009C3792 /* CalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalloutView.xib; sourceTree = "<group>"; };
 		EB81A5DA21ABA201009C3792 /* CalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
 		EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalDate.swift; sourceTree = "<group>"; };
+		EB917D1321B32626009D5953 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		EB917D4421B352DC009D5953 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		EB917D4621B354C2009D5953 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		EB917D4821B4639C009D5953 /* CrumbPathRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrumbPathRenderer.swift; sourceTree = "<group>"; };
+		EB917D4A21B463B3009D5953 /* CrumbPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrumbPath.swift; sourceTree = "<group>"; };
 		EBF39484218D0B000038CE18 /* Interactive Historical Maps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Interactive Historical Maps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBF39487218D0B000038CE18 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBF39489218D0B000038CE18 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,8 +87,11 @@
 		EB81A5D721ABA1DB009C3792 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				EB917D1221B32626009D5953 /* Model.xcdatamodeld */,
+				EB917D4621B354C2009D5953 /* Map.swift */,
 				EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */,
 				EB81A5D421A9029A009C3792 /* MapElement.swift */,
+				EB917D4421B352DC009D5953 /* Model.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -88,6 +101,8 @@
 			children = (
 				EBF39487218D0B000038CE18 /* AppDelegate.swift */,
 				EBF39489218D0B000038CE18 /* ViewController.swift */,
+				EB917D4821B4639C009D5953 /* CrumbPathRenderer.swift */,
+				EB917D4A21B463B3009D5953 /* CrumbPath.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -234,11 +249,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB917D4521B352DC009D5953 /* Model.swift in Sources */,
 				EBF3948A218D0B000038CE18 /* ViewController.swift in Sources */,
+				EB917D4B21B463B3009D5953 /* CrumbPath.swift in Sources */,
+				EB917D4721B354C2009D5953 /* Map.swift in Sources */,
 				EB81A5DE21ABAE1C009C3792 /* HistoricalDate.swift in Sources */,
 				EBF39488218D0B000038CE18 /* AppDelegate.swift in Sources */,
+				EB917D4921B4639C009D5953 /* CrumbPathRenderer.swift in Sources */,
 				EB81A5D521A9029A009C3792 /* MapElement.swift in Sources */,
 				EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */,
+				EB917D1421B32626009D5953 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,6 +527,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EB917D1221B32626009D5953 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EB917D1321B32626009D5953 /* Model.xcdatamodel */,
+			);
+			currentVersion = EB917D1321B32626009D5953 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = EBF3947C218D0B000038CE18 /* Project object */;
 }
