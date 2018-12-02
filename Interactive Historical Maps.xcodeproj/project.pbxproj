@@ -11,6 +11,9 @@
 		EB81A5DB21ABA201009C3792 /* CalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB81A5D921ABA201009C3792 /* CalloutView.xib */; };
 		EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5DA21ABA201009C3792 /* CalloutView.swift */; };
 		EB81A5DE21ABAE1C009C3792 /* HistoricalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */; };
+		EB917D5021B49EF4009D5953 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB917D4C21B49EF4009D5953 /* Model.swift */; };
+		EB917D5121B49EF4009D5953 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB917D4D21B49EF4009D5953 /* Map.swift */; };
+		EB917D5221B49EF4009D5953 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EB917D4E21B49EF4009D5953 /* Model.xcdatamodeld */; };
 		EBF39488218D0B000038CE18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF39487218D0B000038CE18 /* AppDelegate.swift */; };
 		EBF3948A218D0B000038CE18 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF39489218D0B000038CE18 /* ViewController.swift */; };
 		EBF3948D218D0B000038CE18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF3948B218D0B000038CE18 /* Main.storyboard */; };
@@ -34,6 +37,9 @@
 		EB81A5D921ABA201009C3792 /* CalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalloutView.xib; sourceTree = "<group>"; };
 		EB81A5DA21ABA201009C3792 /* CalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
 		EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalDate.swift; sourceTree = "<group>"; };
+		EB917D4C21B49EF4009D5953 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Model.swift; path = "Interactive Historical Maps/Model/Model.swift"; sourceTree = SOURCE_ROOT; };
+		EB917D4D21B49EF4009D5953 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Map.swift; path = "Interactive Historical Maps/Model/Map.swift"; sourceTree = SOURCE_ROOT; };
+		EB917D4F21B49EF4009D5953 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		EBF39484218D0B000038CE18 /* Interactive Historical Maps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Interactive Historical Maps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBF39487218D0B000038CE18 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBF39489218D0B000038CE18 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +83,9 @@
 		EB81A5D721ABA1DB009C3792 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				EB917D4D21B49EF4009D5953 /* Map.swift */,
+				EB917D4C21B49EF4009D5953 /* Model.swift */,
+				EB917D4E21B49EF4009D5953 /* Model.xcdatamodeld */,
 				EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */,
 				EB81A5D421A9029A009C3792 /* MapElement.swift */,
 			);
@@ -237,6 +246,9 @@
 				EBF3948A218D0B000038CE18 /* ViewController.swift in Sources */,
 				EB81A5DE21ABAE1C009C3792 /* HistoricalDate.swift in Sources */,
 				EBF39488218D0B000038CE18 /* AppDelegate.swift in Sources */,
+				EB917D5221B49EF4009D5953 /* Model.xcdatamodeld in Sources */,
+				EB917D5121B49EF4009D5953 /* Map.swift in Sources */,
+				EB917D5021B49EF4009D5953 /* Model.swift in Sources */,
 				EB81A5D521A9029A009C3792 /* MapElement.swift in Sources */,
 				EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */,
 			);
@@ -507,6 +519,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EB917D4E21B49EF4009D5953 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EB917D4F21B49EF4009D5953 /* Model.xcdatamodel */,
+			);
+			currentVersion = EB917D4F21B49EF4009D5953 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = EBF3947C218D0B000038CE18 /* Project object */;
 }
