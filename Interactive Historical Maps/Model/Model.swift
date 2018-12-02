@@ -14,6 +14,7 @@ class Model {
     
     let maps : [Map]
     var date : HistoricalDate
+    var currentMap : Map?
     
     private init() {
         maps = []
