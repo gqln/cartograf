@@ -25,7 +25,7 @@ class CalloutView : UIView {
     // Populate the callout's view elements upon setting properties
     var element : MapElement? {
         didSet {
-            elementNameLabel.text = element!.title
+            elementNameLabel.text = element!.name
             
             timeLabel.text = "\(element!.start) to \(element!.end)"
             

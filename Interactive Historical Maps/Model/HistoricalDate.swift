@@ -7,12 +7,12 @@
 
 import Foundation
 
-class HistoricalDate : CustomStringConvertible, Hashable {
+class HistoricalDate : CustomStringConvertible {
     
-    static let ticks : Int = 5
+    let ticks : Int = 5
     
     var rawValue : Int
-    var adjustedValue : Int { return rawValue / HistoricalDate.ticks }
+    var adjustedValue : Int { return rawValue / ticks }
     var rawMonth : Int { return (adjustedValue % 12 < 0) ? (adjustedValue % 12 + 12) : (adjustedValue % 12) }
     var rawYear : Int { return Int(floor(Double(adjustedValue) / 12.0)) }
     
@@ -22,19 +22,11 @@ class HistoricalDate : CustomStringConvertible, Hashable {
     }
     
     init(month: Int, year: Int) {
-        rawValue = (year * 12 + month) * HistoricalDate.ticks
+        rawValue = (year * 12 + month) * ticks
     }
     
     private init(_ rawValue: Int) {
         self.rawValue = rawValue
-    }
-    
-    init(_ rawValue: Int32) {
-        self.rawValue = Int(rawValue)
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(rawValue)
     }
     
     var description: String { return "\(month) \(year)" }
@@ -64,19 +56,11 @@ class HistoricalDate : CustomStringConvertible, Hashable {
         return lhs.rawValue > rhs.rawValue
     }
     
-    static func > (lhs: HistoricalDate, rhs: Int) -> Bool {
-        return lhs.rawValue > rhs
-    }
-    
     static func <= (lhs: HistoricalDate, rhs: HistoricalDate) -> Bool {
         return lhs.rawValue <= rhs.rawValue
     }
     
     static func >= (lhs: HistoricalDate, rhs: HistoricalDate) -> Bool {
         return lhs.rawValue >= rhs.rawValue
-    }
-    
-    static postfix func -- (lhs: inout HistoricalDate) {
-        return lhs.rawValue -= 1
     }
 }
