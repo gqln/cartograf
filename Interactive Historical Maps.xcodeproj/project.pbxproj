@@ -23,6 +23,7 @@
 		EBFB40FD21B4A89D0088DAC4 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFB40FC21B4A89D0088DAC4 /* Point.swift */; };
 		EBFB40FF21B4A8A70088DAC4 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFB40FE21B4A8A70088DAC4 /* Path.swift */; };
 		EBFB410121B4B83A0088DAC4 /* LandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFB410021B4B83A0088DAC4 /* LandingViewController.swift */; };
+		EBFB410321B4CD320088DAC4 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFB410221B4CD320088DAC4 /* HelpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		EBFB40FC21B4A89D0088DAC4 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		EBFB40FE21B4A8A70088DAC4 /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		EBFB410021B4B83A0088DAC4 /* LandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LandingViewController.swift; path = "Interactive Historical Maps/Controller/LandingViewController.swift"; sourceTree = SOURCE_ROOT; };
+		EBFB410221B4CD320088DAC4 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +84,6 @@
 				EB81A5DA21ABA201009C3792 /* CalloutView.swift */,
 				EB81A5D921ABA201009C3792 /* CalloutView.xib */,
 				EBF3948B218D0B000038CE18 /* Main.storyboard */,
-				EBFB410021B4B83A0088DAC4 /* LandingViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -104,8 +105,10 @@
 		EB81A5D821ABA1E8009C3792 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				EBFB410221B4CD320088DAC4 /* HelpViewController.swift */,
 				EBF39487218D0B000038CE18 /* AppDelegate.swift */,
 				EBF39489218D0B000038CE18 /* ViewController.swift */,
+				EBFB410021B4B83A0088DAC4 /* LandingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				EB917D5221B49EF4009D5953 /* Model.xcdatamodeld in Sources */,
 				EB917D5121B49EF4009D5953 /* Map.swift in Sources */,
 				EBFB40FD21B4A89D0088DAC4 /* Point.swift in Sources */,
+				EBFB410321B4CD320088DAC4 /* HelpViewController.swift in Sources */,
 				EB917D5021B49EF4009D5953 /* Model.swift in Sources */,
 				EB81A5D521A9029A009C3792 /* MapElement.swift in Sources */,
 				EBFB40FF21B4A8A70088DAC4 /* Path.swift in Sources */,

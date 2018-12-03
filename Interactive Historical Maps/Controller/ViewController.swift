@@ -45,6 +45,8 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
+    
+    
     @IBAction func sliderChanged(_ sender: Any) {
         date.rawValue = Int(slider.value)
         updateDate()
