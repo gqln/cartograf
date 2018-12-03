@@ -17,7 +17,34 @@ protocol MapDelegate {
     func pickDates(for element: MapElement)
 }
 
-class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
+class ViewController: UIViewController, MKMapViewDelegate, MapDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch component {
+        case 0:
+            return 12
+        case 1:
+            return 1000000
+        default:
+            assert(false, "Unhandled picker component")
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch component {
+        case 0:
+            return HistoricalDate.months[row]
+        case 1:
+            return HistoricalDate(month: 0, year: row - 2000).year
+        default:
+            assert(false, "Unhandled picker component")
+        }
+    }
+    
 
     @IBOutlet weak var mapView: MKMapView!
     
@@ -45,7 +72,8 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
-    
+    @IBOutlet weak var startPicker: UIPickerView!
+    @IBOutlet weak var endPicker: UIPickerView!
     
     @IBAction func sliderChanged(_ sender: Any) {
         date.rawValue = Int(slider.value)
@@ -77,15 +105,20 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
         
         // Gestures
         let pressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
-        pressGesture.minimumPressDuration = 1.0
+        pressGesture.minimumPressDuration = 0.75
         
         mapView.addGestureRecognizer(pressGesture)
         
+        startPicker.delegate = self
+        endPicker.delegate = self
+        startPicker.dataSource = self
+        endPicker.dataSource = self
         
         // Example Data -- REMOVE EVENTUALLY
         let element1 = Point(from: HistoricalDate(month: 4, year: 1333), to: HistoricalDate(month: 3, year: 1335), at: CLLocationCoordinate2D(latitude: 34.642763, longitude: -97.327818))
         let element2 = Point(from: earliest, to: HistoricalDate(month: 3, year: 1338), at: CLLocationCoordinate2D(latitude: 37.642763, longitude: -99.327818))
         let element3 = Point(from: HistoricalDate(month: 2, year: 1339), to: latest, at: CLLocationCoordinate2D(latitude: 38.642763, longitude: -98.327818))
+        
         add(element: element1)
         add(element: element2)
         add(element: element3)
@@ -105,7 +138,8 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
                 let touch = recognizer.location(in: mapView)
                 let coordinate = mapView.convert(touch, toCoordinateFrom: mapView)
                 
-                let point = Point(from: date.copy, to: date.copy, at: coordinate)
+                let point = Point(from: date.past, to: date.future, at: coordinate)
+                point.new = true
                 add(element: point)
                 updateMap()
             }
@@ -166,11 +200,21 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
         let identifier = "pointElement"
         switch annotation {
         case is Point:
+            let point = annotation as! Point
+            let isPointNew = point.new
             if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
-                annotationView.annotation = annotation
-                let calloutView = annotationView.detailCalloutAccessoryView as! CalloutView
+                let pin = annotationView as! MKPinAnnotationView
+                
+                pin.animatesDrop = isPointNew
+                
+                if isPointNew {
+                    point.new = false
+                }
+                
+                pin.annotation = annotation
+                let calloutView = pin.detailCalloutAccessoryView as! CalloutView
                 calloutView.element = annotation as! Point
-                return annotationView
+                return pin
             } else {
                 // TODO: Make this another function
                 let annotationView = MKPinAnnotationView(annotation:annotation, reuseIdentifier: identifier)
@@ -192,6 +236,12 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
                 
                 annotationView.isEnabled = true
                 annotationView.canShowCallout = true
+                annotationView.animatesDrop = point.new
+                
+                if isPointNew {
+                    point.new = false
+                }
+                
                 return annotationView
             }
         default:
@@ -334,7 +384,7 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
             }
         }
         
-        
+        print(mapView.annotations.count)
         
         mapView.addOverlays(newOverlays)
         // mapView.addAnnotations(newAnnotations)

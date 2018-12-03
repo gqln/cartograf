@@ -9,10 +9,10 @@ import Foundation
 
 class HistoricalDate : CustomStringConvertible, Hashable {
     
-    let ticks : Int = 5
+    static let ticks : Int = 5
     
     var rawValue : Int
-    var adjustedValue : Int { return rawValue / ticks }
+    var adjustedValue : Int { return rawValue / HistoricalDate.ticks }
     var rawMonth : Int { return (adjustedValue % 12 < 0) ? (adjustedValue % 12 + 12) : (adjustedValue % 12) }
     var rawYear : Int { return Int(floor(Double(adjustedValue) / 12.0)) }
     
@@ -22,7 +22,7 @@ class HistoricalDate : CustomStringConvertible, Hashable {
     }
     
     init(month: Int, year: Int) {
-        rawValue = (year * 12 + month) * ticks
+        rawValue = (year * 12 + month) * HistoricalDate.ticks
     }
     
     private init(_ rawValue: Int) {
@@ -35,6 +35,8 @@ class HistoricalDate : CustomStringConvertible, Hashable {
     
     var description: String { return "\(month) \(year)" }
     var copy: HistoricalDate { return HistoricalDate(self.rawValue) }
+    var past: HistoricalDate { return HistoricalDate(self.rawValue - 48 * HistoricalDate.ticks) }
+    var future: HistoricalDate { return HistoricalDate(self.rawValue + 48 * HistoricalDate.ticks) }
     
     static let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     

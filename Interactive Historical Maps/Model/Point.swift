@@ -13,11 +13,13 @@ class Point : MKPointAnnotation, MapElement {
     var name: String?
     var start: HistoricalDate
     var end: HistoricalDate
+    var new: Bool
     
     init(from start: HistoricalDate, to end: HistoricalDate, at coordinate: CLLocationCoordinate2D) {
         
         self.start = start
         self.end = end
+        self.new = false
         super.init()
         
         self.coordinate = coordinate

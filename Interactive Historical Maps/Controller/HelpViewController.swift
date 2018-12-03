@@ -17,6 +17,9 @@ class HelpViewController: UIViewController {
     }
     
 
+    @IBAction func dismissClicked(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 
