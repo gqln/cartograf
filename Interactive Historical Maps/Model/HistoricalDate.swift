@@ -7,7 +7,7 @@
 
 import Foundation
 
-class HistoricalDate : CustomStringConvertible {
+class HistoricalDate : CustomStringConvertible, Hashable {
     
     let ticks : Int = 5
     
@@ -27,6 +27,10 @@ class HistoricalDate : CustomStringConvertible {
     
     private init(_ rawValue: Int) {
         self.rawValue = rawValue
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.rawValue)
     }
     
     var description: String { return "\(month) \(year)" }

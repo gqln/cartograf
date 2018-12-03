@@ -21,6 +21,8 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     
+    let model = Model.shared
+    
     var element : MapElement?
     
     // Elements should become two different arrays, as overlays and annotations are treated very differently
@@ -57,7 +59,6 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
         updateMap()
         updateUI()
     }
-    
     
     @IBAction func cancelClicked(_ sender: Any) {
         mode = .viewing
@@ -266,7 +267,7 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
     
     func updateMap() {
         let oldAnnotations = mapView.annotations as! [Point]
-        mapView.removeAnnotations(oldAnnotations)
+        // mapView.removeAnnotations(oldAnnotations)
         
         let oldOverlays = mapView.overlays
         mapView.removeOverlays(oldOverlays)
@@ -320,8 +321,21 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate {
                 assert(false, "unhandled element type")
             }
         }
-        mapView.addOverlays(newOverlays)
+        
         mapView.addAnnotations(newAnnotations)
+        
+        for oldAnnotation in oldAnnotations {
+            if !newAnnotations.contains(where: { (annotation) -> Bool in
+                annotation.isEqual(oldAnnotation)
+            }) {
+                mapView.removeAnnotation(oldAnnotation)
+            }
+        }
+        
+        
+        
+        mapView.addOverlays(newOverlays)
+        // mapView.addAnnotations(newAnnotations)
     }
     
 }

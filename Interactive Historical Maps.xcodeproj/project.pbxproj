@@ -20,6 +20,9 @@
 		EBF3948F218D0B010038CE18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBF3948E218D0B010038CE18 /* Assets.xcassets */; };
 		EBF39492218D0B010038CE18 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF39490218D0B010038CE18 /* LaunchScreen.storyboard */; };
 		EBF3949D218D0B010038CE18 /* Interactive_Historical_MapsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF3949C218D0B010038CE18 /* Interactive_Historical_MapsTests.swift */; };
+		EBFB40FD21B4A89D0088DAC4 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFB40FC21B4A89D0088DAC4 /* Point.swift */; };
+		EBFB40FF21B4A8A70088DAC4 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFB40FE21B4A8A70088DAC4 /* Path.swift */; };
+		EBFB410121B4B83A0088DAC4 /* LandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFB410021B4B83A0088DAC4 /* LandingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +53,9 @@
 		EBF39498218D0B010038CE18 /* Interactive Historical MapsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Interactive Historical MapsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBF3949C218D0B010038CE18 /* Interactive_Historical_MapsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactive_Historical_MapsTests.swift; sourceTree = "<group>"; };
 		EBF3949E218D0B010038CE18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EBFB40FC21B4A89D0088DAC4 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		EBFB40FE21B4A8A70088DAC4 /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
+		EBFB410021B4B83A0088DAC4 /* LandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LandingViewController.swift; path = "Interactive Historical Maps/Controller/LandingViewController.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +82,7 @@
 				EB81A5DA21ABA201009C3792 /* CalloutView.swift */,
 				EB81A5D921ABA201009C3792 /* CalloutView.xib */,
 				EBF3948B218D0B000038CE18 /* Main.storyboard */,
+				EBFB410021B4B83A0088DAC4 /* LandingViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -88,6 +95,8 @@
 				EB917D4E21B49EF4009D5953 /* Model.xcdatamodeld */,
 				EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */,
 				EB81A5D421A9029A009C3792 /* MapElement.swift */,
+				EBFB40FC21B4A89D0088DAC4 /* Point.swift */,
+				EBFB40FE21B4A8A70088DAC4 /* Path.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -245,11 +254,14 @@
 			files = (
 				EBF3948A218D0B000038CE18 /* ViewController.swift in Sources */,
 				EB81A5DE21ABAE1C009C3792 /* HistoricalDate.swift in Sources */,
+				EBFB410121B4B83A0088DAC4 /* LandingViewController.swift in Sources */,
 				EBF39488218D0B000038CE18 /* AppDelegate.swift in Sources */,
 				EB917D5221B49EF4009D5953 /* Model.xcdatamodeld in Sources */,
 				EB917D5121B49EF4009D5953 /* Map.swift in Sources */,
+				EBFB40FD21B4A89D0088DAC4 /* Point.swift in Sources */,
 				EB917D5021B49EF4009D5953 /* Model.swift in Sources */,
 				EB81A5D521A9029A009C3792 /* MapElement.swift in Sources */,
+				EBFB40FF21B4A8A70088DAC4 /* Path.swift in Sources */,
 				EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
