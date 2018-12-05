@@ -15,6 +15,7 @@ class HistoricalDate : CustomStringConvertible, Hashable {
     var adjustedValue : Int { return rawValue / HistoricalDate.ticks }
     var rawMonth : Int { return (adjustedValue % 12 < 0) ? (adjustedValue % 12 + 12) : (adjustedValue % 12) }
     var rawYear : Int { return Int(floor(Double(adjustedValue) / 12.0)) }
+    var rawEra : Int { return rawYear >= 0 ? 1 : 0 }
     
     var month : String { return HistoricalDate.months[rawMonth] }
     var year : String {
@@ -39,6 +40,8 @@ class HistoricalDate : CustomStringConvertible, Hashable {
     var future: HistoricalDate { return HistoricalDate(self.rawValue + 48 * HistoricalDate.ticks) }
     
     static let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    
+    static let eras = ["BC", "AD"]
     
     static var zero : HistoricalDate { return HistoricalDate(month: 0, year: 0) }
     

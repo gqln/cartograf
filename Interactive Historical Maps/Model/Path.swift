@@ -40,6 +40,9 @@ class Path : MapElement {
         let keys = sequence.keys.sorted().filter { (key) -> Bool in
             key <= date.rawValue
         }
+        
+        // FIX ERROR, return optional
+        
         let last = keys.last!
         return sequence[last] as! MKPolyline
     }

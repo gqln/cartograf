@@ -13,39 +13,8 @@ enum MapMode {
     case viewing, creatingPoint, addingPath, addingRegion, editingPath, editingRegion
 }
 
-protocol MapDelegate {
-    func pickDates(for element: MapElement)
-}
-
-class ViewController: UIViewController, MKMapViewDelegate, MapDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class ViewController: UIViewController, MKMapViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIScrollViewDelegate {
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch component {
-        case 0:
-            return 12
-        case 1:
-            return 1000000
-        default:
-            assert(false, "Unhandled picker component")
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch component {
-        case 0:
-            return HistoricalDate.months[row]
-        case 1:
-            return HistoricalDate(month: 0, year: row - 2000).year
-        default:
-            assert(false, "Unhandled picker component")
-        }
-    }
-    
-
     @IBOutlet weak var mapView: MKMapView!
     
     let model = Model.shared
@@ -72,8 +41,22 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate, UIPicker
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
-    @IBOutlet weak var startPicker: UIPickerView!
-    @IBOutlet weak var endPicker: UIPickerView!
+    @IBOutlet weak var inspectorElementName: UITextField!
+    
+    @IBOutlet weak var startMonthPicker: UIPickerView!
+    @IBOutlet weak var endMonthPicker: UIPickerView!
+    
+    @IBOutlet weak var startYearTextField: UITextField!
+    @IBOutlet weak var endYearTextField: UITextField!
+    
+    @IBOutlet weak var startEraPicker: UIPickerView!
+    @IBOutlet weak var endEraPicker: UIPickerView!
+    
+    @IBOutlet weak var startDateWarningLabel: UILabel!
+    @IBOutlet weak var endDateWarningLabel: UILabel!
+    
+    @IBOutlet weak var inspectorScrollView: UIScrollView!
+    @IBOutlet weak var inspectorView: UIView!
     
     @IBAction func sliderChanged(_ sender: Any) {
         date.rawValue = Int(slider.value)
@@ -98,6 +81,11 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate, UIPicker
         updateUI()
     }
     
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        // check if keyboard is present? -- keyboardWillAppear/Disappear with bool stored prop flag
+        self.view.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -107,12 +95,32 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate, UIPicker
         let pressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
         pressGesture.minimumPressDuration = 0.75
         
-        mapView.addGestureRecognizer(pressGesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         
-        startPicker.delegate = self
-        endPicker.delegate = self
-        startPicker.dataSource = self
-        endPicker.dataSource = self
+        mapView.addGestureRecognizer(pressGesture)
+        mapView.addGestureRecognizer(tapGesture)
+        
+        startMonthPicker.delegate = self
+        startEraPicker.delegate = self
+        endMonthPicker.delegate = self
+        endEraPicker.delegate = self
+        startMonthPicker.dataSource = self
+        startEraPicker.dataSource = self
+        endMonthPicker.dataSource = self
+        endEraPicker.dataSource = self
+        
+        startYearTextField.keyboardType = .numberPad
+        endYearTextField.keyboardType = .numberPad
+        
+        inspect(point: nil)
+        
+        inspectorScrollView.delegate = self
+        
+        self.automaticallyAdjustsScrollViewInsets = false
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         // Example Data -- REMOVE EVENTUALLY
         let element1 = Point(from: HistoricalDate(month: 4, year: 1333), to: HistoricalDate(month: 3, year: 1335), at: CLLocationCoordinate2D(latitude: 34.642763, longitude: -97.327818))
@@ -129,6 +137,26 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate, UIPicker
         
         updateDate()
         updateMap()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        inspectorScrollView.contentSize = inspectorView.frame.size
+        inspectorScrollView.bounds.size = inspectorView.frame.size
+        
+        print(inspectorScrollView.contentSize, inspectorView.frame.size)
+    }
+    
+    @objc func keyboardWillShow(notification:Notification) {
+        let info = notification.userInfo!
+        let keyboardSize = info[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect
+        inspectorScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: (keyboardSize?.height)! + 25, right: 0)
+    }
+    
+    @objc func keyboardWillHide(notification:Notification) {
+        inspectorScrollView.contentInset = UIEdgeInsets.zero
+        inspectorScrollView.bounds.size = inspectorView.frame.size
+        inspectorScrollView.contentInset = UIEdgeInsets.zero
     }
     
     @objc func longPress(_ recognizer: UIGestureRecognizer) {
@@ -230,7 +258,7 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate, UIPicker
                     let heightConstraint = NSLayoutConstraint(item: calloutView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0.0, constant: 86)
                     calloutView.addConstraint(heightConstraint)
                     
-                    calloutView.delegate = self
+//                    calloutView.delegate = self
                     calloutView.element = annotation as! Point
                 }
                 
@@ -261,12 +289,33 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate, UIPicker
         }
     }
     
-    @IBAction func dismissHelp() {
-        dismiss(animated: true, completion: nil)
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        switch view {
+        case is MKPinAnnotationView:
+//            (view as! MKPinAnnotationView).setSelected(true, animated: true)
+            (view as! MKPinAnnotationView).pinTintColor = MKPinAnnotationView.greenPinColor()
+            let point = view.annotation as! Point
+            inspect(point: point)
+        case is MKOverlay:
+            let path = view.annotation as! Path
+            inspect(path: path)
+        default:
+            break
+        }
     }
     
-    func pickDates(for element: MapElement) {
-        // TODO: Implement
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        switch view {
+        case is MKPinAnnotationView:
+            (view as! MKPinAnnotationView).pinTintColor = MKPinAnnotationView.redPinColor()
+            inspect(point: nil)
+        default:
+            break
+        }
+    }
+    
+    @IBAction func dismissHelp() {
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func addPath(_ sender: Any) {
@@ -281,6 +330,50 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate, UIPicker
     
     func add(element: MapElement) {
         elements.append(element)
+    }
+    
+    func inspect(point maybePoint: Point?) {
+        if let point = maybePoint {
+            inspectorElementName.text = point.name
+            startMonthPicker.selectRow(point.start.rawMonth, inComponent: 0, animated: false)
+            startYearTextField.text = String(point.start.rawYear.magnitude)
+            startEraPicker.selectRow(point.start.rawEra, inComponent: 0, animated: false)
+            
+            endMonthPicker.selectRow(point.end.rawMonth, inComponent: 0, animated: false)
+            endYearTextField.text = String(point.end.rawYear.magnitude)
+            endEraPicker.selectRow(point.end.rawEra, inComponent: 0, animated: false)
+        } else {
+            inspectorElementName.text = ""
+            startMonthPicker.selectRow(0, inComponent: 0, animated: false)
+            startYearTextField.text = "0"
+            startEraPicker.selectRow(0, inComponent: 0, animated: false)
+            
+            endMonthPicker.selectRow(0, inComponent: 0, animated: false)
+            endYearTextField.text = "0"
+            endEraPicker.selectRow(0, inComponent: 0, animated: false)
+        }
+    }
+    
+    func inspect(path maybePath: Path?) {
+        if let path = maybePath {
+            inspectorElementName.text = path.name
+            startMonthPicker.selectRow(path.start.rawMonth, inComponent: 0, animated: false)
+            startYearTextField.text = String(path.start.rawYear.magnitude)
+            startEraPicker.selectRow(path.start.rawEra, inComponent: 0, animated: false)
+            
+            endMonthPicker.selectRow(path.end.rawMonth, inComponent: 0, animated: false)
+            endYearTextField.text = String(path.end.rawYear.magnitude)
+            endEraPicker.selectRow(path.end.rawEra, inComponent: 0, animated: false)
+        } else {
+            inspectorElementName.text = ""
+            startMonthPicker.selectRow(0, inComponent: 0, animated: false)
+            startYearTextField.text = "0"
+            startEraPicker.selectRow(0, inComponent: 0, animated: false)
+            
+            endMonthPicker.selectRow(0, inComponent: 0, animated: false)
+            endYearTextField.text = "0"
+            endEraPicker.selectRow(0, inComponent: 0, animated: false)
+        }
     }
     
     func updateUI() {
@@ -384,31 +477,82 @@ class ViewController: UIViewController, MKMapViewDelegate, MapDelegate, UIPicker
             }
         }
         
-        print(mapView.annotations.count)
-        
         mapView.addOverlays(newOverlays)
         // mapView.addAnnotations(newAnnotations)
     }
     
-}
-
-// Will be used to pick Historical Dates for points and to edit dates for other components
-class HistoricalDatePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
-    var dataSource = self
+    // MARK: - PickerView
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
+        return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch component {
-        case 0:
-            return 12
-        case 1:
-            // Incomplete
-            return 0
+        switch pickerView {
+        case is CustomPickerView:
+            let customPickerView = pickerView as! CustomPickerView
+            switch component {
+            case 0:
+                return customPickerView.count
+            default:
+                assert(false, "Unhandled picker component")
+            }
         default:
-            assert(false, "Not enough components in pickerview")
+            assert(false, "Unhandled pickerView")
         }
     }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch pickerView {
+        case is CustomPickerView:
+            let customPickerView = pickerView as! CustomPickerView
+            switch component {
+            case 0:
+                return customPickerView.options[row]
+            default:
+                assert(false, "Unhandled picker component")
+            }
+        default:
+            assert(false, "Unhandled pickerView")
+        }
+    }
+    
+    // MARK: - TextField
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        inspectorView.frame = CGRect(x: 0, y: -110, width: 300, height: 834)
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        inspectorView.frame = CGRect(x: 0, y: 0, width: 300, height: 834)
+        self.view.endEditing(true)
+        return true
+    }
+    
+    // MARK: - REMOVE
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(inspectorScrollView.contentSize, inspectorView.frame.size)
+        print(inspectorScrollView.contentOffset)
+        print(inspectorScrollView.bounds.size.height)
+        print(inspectorScrollView.contentInset)
+    }
+    
 }
+
+protocol CustomPickerView  {
+    var count : Int { get }
+    var options : [String] { get }
+}
+
+class MonthPickerView : UIPickerView, CustomPickerView {
+    let count = 12
+    let options = HistoricalDate.months
+}
+
+class EraPickerView : UIPickerView, CustomPickerView {
+    let count = 2
+    let options = HistoricalDate.eras
+}
+

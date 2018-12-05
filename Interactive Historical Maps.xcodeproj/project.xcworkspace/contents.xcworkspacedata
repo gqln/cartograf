@@ -2,15 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/goki/Box Sync/FA18/CS475/Projects/Interactive Historical Maps/Interactive Historical Maps/Model/HistoricalDate.swift">
-   </FileRef>
-   <FileRef
-      location = "group:../../C Squared/C Squared/View/CalloutView.swift">
-   </FileRef>
-   <FileRef
-      location = "group:../../C Squared/C Squared/View/CalloutView.xib">
-   </FileRef>
-   <FileRef
       location = "self:">
    </FileRef>
 </Workspace>

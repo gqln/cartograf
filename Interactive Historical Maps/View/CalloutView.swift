@@ -20,7 +20,7 @@ class CalloutView : UIView {
     @IBOutlet weak var infoButton: UIButton!
     
     // MapView which contains annotation presents action sheets triggered by buttons
-    var delegate : MapDelegate?
+//    var delegate : MapDelegate?
     
     // Populate the callout's view elements upon setting properties
     var element : MapElement? {
@@ -57,7 +57,7 @@ class CalloutView : UIView {
     
     // Map View handles action sheets
     @IBAction func detailDisclosureClicked(_ sender: Any) {
-        delegate?.pickDates(for: element!)
+        
     }
     
 }

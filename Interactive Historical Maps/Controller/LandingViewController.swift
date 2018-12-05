@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class LandingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class LandingViewController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
     let model = Model.shared
     
@@ -21,6 +21,9 @@ class LandingViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         tableView.dataSource = self
         tableView.delegate = self
+        
+        mapView.delegate = self
+        mapView.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 16.62150306199443, longitude: 100.91160280586966), span: MKCoordinateSpan(latitudeDelta: 89.41729308033938, longitudeDelta: 141.9002645791514))
     }
     
     // MARK: - Table View Data Source
@@ -45,6 +48,10 @@ class LandingViewController: UIViewController, UITableViewDelegate, UITableViewD
         performSegue(withIdentifier: "EditMap", sender: self)
     }
 
+    
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+//        print(mapView.region)
+    }
     
     // MARK: - Navigation
 
