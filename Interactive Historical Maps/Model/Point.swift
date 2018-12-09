@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-class Point : MKPointAnnotation, MapEntity, MapElement {
+class Point : MKPointAnnotation, MapEntity, MapElement, ValidDateRangeDelegate {
     var name: String?
     var start: HistoricalDate
     var end: HistoricalDate
@@ -29,5 +29,21 @@ class Point : MKPointAnnotation, MapEntity, MapElement {
     
     func annotation(for date: HistoricalDate) -> MKAnnotation {
         return self
+    }
+    
+    func isValid(end newEnd: HistoricalDate) -> (valid: Bool, message: String) {
+        if start < newEnd {
+            return (true, "")
+        } else {
+            return (false, "End must occur after start.")
+        }
+    }
+    
+    func isValid(start newStart: HistoricalDate) -> (valid: Bool, message: String) {
+        if newStart < end {
+            return (true, "")
+        } else {
+            return (false, "Start must occur before end.")
+        }
     }
 }

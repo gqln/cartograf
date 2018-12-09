@@ -13,6 +13,7 @@
 		EB431B1A21BC9CFC00AE1519 /* AudioIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB431B1921BC9CFC00AE1519 /* AudioIntegrationViewController.swift */; };
 		EB431B1C21BC9D0700AE1519 /* PublishingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB431B1B21BC9D0700AE1519 /* PublishingViewController.swift */; };
 		EB431B1E21BCEB8200AE1519 /* TouchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB431B1D21BCEB8200AE1519 /* TouchView.swift */; };
+		EB431B2021BDAED100AE1519 /* InspectorScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB431B1F21BDAED100AE1519 /* InspectorScrollView.swift */; };
 		EB81A5D521A9029A009C3792 /* MapEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5D421A9029A009C3792 /* MapEntity.swift */; };
 		EB81A5DB21ABA201009C3792 /* CalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB81A5D921ABA201009C3792 /* CalloutView.xib */; };
 		EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5DA21ABA201009C3792 /* CalloutView.swift */; };
@@ -49,6 +50,7 @@
 		EB431B1921BC9CFC00AE1519 /* AudioIntegrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AudioIntegrationViewController.swift; path = "Interactive Historical Maps/Controller/AudioIntegrationViewController.swift"; sourceTree = SOURCE_ROOT; };
 		EB431B1B21BC9D0700AE1519 /* PublishingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishingViewController.swift; sourceTree = "<group>"; };
 		EB431B1D21BCEB8200AE1519 /* TouchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchView.swift; sourceTree = "<group>"; };
+		EB431B1F21BDAED100AE1519 /* InspectorScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorScrollView.swift; sourceTree = "<group>"; };
 		EB81A5D421A9029A009C3792 /* MapEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEntity.swift; sourceTree = "<group>"; };
 		EB81A5D921ABA201009C3792 /* CalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalloutView.xib; sourceTree = "<group>"; };
 		EB81A5DA21ABA201009C3792 /* CalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 		EB81A5D621ABA1D6009C3792 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EB431B1F21BDAED100AE1519 /* InspectorScrollView.swift */,
 				EB81A5DA21ABA201009C3792 /* CalloutView.swift */,
 				EB81A5D921ABA201009C3792 /* CalloutView.xib */,
 				EB431B1D21BCEB8200AE1519 /* TouchView.swift */,
@@ -283,6 +286,7 @@
 				EB431B1C21BC9D0700AE1519 /* PublishingViewController.swift in Sources */,
 				EB917D5121B49EF4009D5953 /* Map.swift in Sources */,
 				EBFB40FD21B4A89D0088DAC4 /* Point.swift in Sources */,
+				EB431B2021BDAED100AE1519 /* InspectorScrollView.swift in Sources */,
 				EBFB410321B4CD320088DAC4 /* HelpViewController.swift in Sources */,
 				EB431B1621BC9B5B00AE1519 /* EditorTabBarController.swift in Sources */,
 				EB917D5021B49EF4009D5953 /* Model.swift in Sources */,

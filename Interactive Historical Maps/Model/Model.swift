@@ -15,7 +15,6 @@ class Model {
     
     var maps : [Map]
     var date : HistoricalDate
-    var currentMap : Map?
     
     private init() {
         maps = []
@@ -24,37 +23,46 @@ class Model {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Map")
         do {
             maps = try persistentContainer.viewContext.fetch(request) as! [Map]
-            print(maps)
+            
+            for map in maps {
+                print(map.name!)
+                for element in map.elements!.allObjects {
+                    print(element)
+                }
+            }
+            
         } catch {
             print("Error")
             maps = []
         }
-        maps.append(Map(context: persistentContainer.viewContext))
-        maps.append(Map(context: persistentContainer.viewContext))
-        maps.append(Map(context: persistentContainer.viewContext))
+//        maps.append(Map(context: persistentContainer.viewContext))
+//        maps.append(Map(context: persistentContainer.viewContext))
+//        maps.append(Map(context: persistentContainer.viewContext))
+//        
+//        maps[0].name = "Ibn Battuta's Rihla"
+//        maps[1].name = "The Origins of the Golden Arches"
+//        maps[2].name = "The Last Century"
+//        
+//        maps[0].author = "Jyoti Balachandran"
+//        maps[1].author = "Ronald McDonald"
+//        maps[2].author = "Gokulan Gnanendran"
+//        
+//        maps[0].set(start: HistoricalDate(month: 8, year: 1332))
+//        maps[1].set(start: HistoricalDate(month: 3, year: 1955))
+//        maps[2].set(start: HistoricalDate(month: 0, year: 1900))
+//        
+//        maps[0].set(end: HistoricalDate(month: 9, year: 1346))
+//        maps[1].set(end: HistoricalDate(month: 11, year: 2018))
+//        maps[2].set(end: HistoricalDate(month: 11, year: 1999))
         
-        maps[0].name = "Ibn Battuta's Rihla"
-        maps[1].name = "The Origins of the Golden Arches"
-        maps[2].name = "The Last Century"
+        self.saveContext()
         
-        maps[0].author = "Jyoti Balachandran"
-        maps[1].author = "Ronald McDonald"
-        maps[2].author = "Gokulan Gnanendran"
-        
-        maps[0].set(start: HistoricalDate(month: 8, year: 1332))
-        maps[1].set(start: HistoricalDate(month: 3, year: 1955))
-        maps[2].set(start: HistoricalDate(month: 0, year: 1900))
-        
-        maps[0].set(end: HistoricalDate(month: 9, year: 1346))
-        maps[1].set(end: HistoricalDate(month: 11, year: 2018))
-        maps[2].set(end: HistoricalDate(month: 11, year: 1999))
-        
-        print(maps)
+        // print(maps)
     }
     
     func addMap() -> Int {
         maps.append(Map(context: persistentContainer.viewContext))
-        return maps.count
+        return maps.count-1
     }
     
     func delete(_ map: Map) {

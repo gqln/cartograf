@@ -9,8 +9,12 @@
 import UIKit
 import MapKit
 
-enum MapMode {
-    case viewing, creatingPoint, addingPath, addingRegion, editingPoint, editingPath, editingRegion
+enum MapMode : String {
+    case viewing = "Editing Map"
+    case addingPoint = "Adding Points"
+    case addingPath = "Adding Path"
+    case editingPoint = "Editing Point"
+    case editingPath = "Editing Path"
 }
 
 class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, EditorViewController {
@@ -38,10 +42,11 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var slider: UISlider!
     
+    @IBOutlet weak var mapNameLabel: UILabel!
+    
     @IBOutlet weak var addPathButton: UIButton!
     @IBOutlet weak var addRegionButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
-    @IBOutlet weak var cancelButton: UIButton!
     
     @IBOutlet weak var inspectorElementName: UITextField!
     
@@ -61,6 +66,23 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     
     @IBOutlet weak var inspectorScrollView: UIScrollView!
     @IBOutlet weak var inspectorView: UIView!
+    @IBOutlet weak var inspectorViewModeLabel: UILabel!
+    
+    @IBOutlet weak var entityDescriptionTextView: UITextView!
+    @IBOutlet weak var deleteEntityButton: UIButton!
+    
+    @IBAction func saveClicked(_ sender: Any) {
+        switch mode {
+        case .viewing:
+            dismiss(animated: true, completion: nil)
+        case .addingPoint, .addingPath:
+            inspect(map)
+            change(to: .viewing)
+        case .editingPoint, .editingPath:
+            inspect(map)
+            change(to: .viewing)
+        }
+    }
     
     @IBAction func sliderChanged(_ sender: Any) {
         date.rawValue = Int(slider.value)
@@ -69,20 +91,20 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     }
     
     @IBAction func doneClicked(_ sender: Any) {
-        mode = .viewing
-        elements.append(element!)
+        if mode == .addingPath || mode == .editingPath {
+            elements.append(element!)
+            map.addToElements(element as! Element)
+            model.saveContext()
+        }
+        change(to: .viewing)
         
         element = nil
         updateMap()
         updateUI()
     }
     
-    @IBAction func cancelClicked(_ sender: Any) {
-        mode = .viewing
-       
-        element = nil
-        updateMap()
-        updateUI()
+    @IBAction func deleteEntityClicked(_ sender: Any) {
+        
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
@@ -95,6 +117,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         self.date = map!.start
         self.earliest = map!.start
         self.latest = map!.end
+        self.elements = Array(map.elements!) as! [MapElement]
     }
     
     override func viewDidLoad() {
@@ -123,7 +146,20 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         startYearTextField.keyboardType = .numberPad
         endYearTextField.keyboardType = .numberPad
         
-        inspect(map: map)
+        startYearTextField.delegate = self
+        endYearTextField.delegate = self
+        
+        var legalLabel: UIView?
+        for subview in mapView.subviews {
+            if String(describing: type(of: subview)) == "MKAttributionLabel" {
+                legalLabel = subview
+            }
+        }
+        legalLabel?.isHidden = true
+        
+        inspect(map)
+        
+        mapNameLabel.text = map.name
         
         inspectorScrollView.delegate = self
         
@@ -132,15 +168,6 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        // Example Data -- REMOVE EVENTUALLY
-        let element1 = Point(from: HistoricalDate(month: 4, year: 1333), to: HistoricalDate(month: 3, year: 1335), at: CLLocationCoordinate2D(latitude: 34.642763, longitude: -97.327818))
-        let element2 = Point(from: earliest, to: HistoricalDate(month: 3, year: 1338), at: CLLocationCoordinate2D(latitude: 37.642763, longitude: -99.327818))
-        let element3 = Point(from: HistoricalDate(month: 2, year: 1339), to: latest, at: CLLocationCoordinate2D(latitude: 38.642763, longitude: -98.327818))
-        
-        add(element: element1)
-        add(element: element2)
-        add(element: element3)
         
         slider.minimumValue = Float(earliest.rawValue)
         slider.maximumValue = Float(latest.rawValue)
@@ -160,21 +187,32 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     
     @objc func keyboardWillShow(notification:Notification) {
         let info = notification.userInfo!
-        let keyboardSize = info[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect
-        inspectorScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: (keyboardSize?.height)! + 25, right: 0)
+        let keyboardSize = info[UIResponder.keyboardFrameBeginUserInfoKey] as! CGRect
+        let insets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        inspectorScrollView.contentInset = insets
+        inspectorScrollView.scrollIndicatorInsets = insets
+        
+        var frame = inspectorScrollView.frame
+        frame.size.height -= keyboardSize.height
+        
+        if entityDescriptionTextView.isFirstResponder {
+            let scrollPoint = CGPoint(x: 0, y: entityDescriptionTextView.frame.origin.y - 45)
+            inspectorScrollView.setContentOffset(scrollPoint, animated: true)
+        }
     }
     
     @objc func keyboardWillHide(notification:Notification) {
         inspectorScrollView.contentInset = UIEdgeInsets.zero
         inspectorScrollView.bounds.size = inspectorView.frame.size
         inspectorScrollView.contentInset = UIEdgeInsets.zero
+        inspectorScrollView.scrollIndicatorInsets = UIEdgeInsets.zero
     }
     
     let touchView = TouchView(frame: CGRect.zero)
     
     @objc func longPress(_ recognizer: UIGestureRecognizer) {
         switch mode {
-        case .viewing:
+        case .addingPoint:
             if recognizer.state == .began {
                 let touch = recognizer.location(in: mapView)
                 let coordinate = mapView.convert(touch, toCoordinateFrom: mapView)
@@ -205,7 +243,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 
                 element = Path(on: date.copy, at: coordinate)
                 
-                mode = .editingPath
+                change(to: .editingPath)
                 
                 updateUI()
                 updateDate()
@@ -213,7 +251,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
             case .cancelled, .failed, .possible:
                 
                 element = nil
-                mode = .viewing
+                change(to: .viewing)
             default:
                 assert(false, "Should have changed to .editing")
             }
@@ -244,7 +282,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 updateMap()
             case .cancelled, .failed, .possible:
                 element = nil
-                mode = .viewing
+                change(to: .viewing)
             }
         default:
             break
@@ -286,7 +324,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                     let heightConstraint = NSLayoutConstraint(item: calloutView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0.0, constant: 86)
                     calloutView.addConstraint(heightConstraint)
                     
-//                    calloutView.delegate = self
+                    //                    calloutView.delegate = self
                     calloutView.element = point
                     point.calloutView = calloutView
                 }
@@ -310,8 +348,8 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         switch overlay {
         case is MKPolyline:
             let line = MKPolylineRenderer(polyline: overlay as! MKPolyline)
-            line.strokeColor = UIColor.blue
-            line.lineWidth = 4.0
+            line.strokeColor = UIColor(hue: 327/360, saturation: 0.98, brightness: 0.98, alpha: 0.67)
+            line.lineWidth = 5.0
             return line
         default:
             assert(false, "Unhandled Overlay")
@@ -321,30 +359,26 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         switch view {
         case is MKPinAnnotationView:
-//            (view as! MKPinAnnotationView).setSelected(true, animated: true)
+            //            (view as! MKPinAnnotationView).setSelected(true, animated: true)
             let point = view.annotation as! Point
             selectedPoint = point
             switch mode {
             case .viewing:
                 (view as! MKPinAnnotationView).pinTintColor = MKPinAnnotationView.greenPinColor()
-                inspect(point: point)
-                mode = .editingPoint
-            case .creatingPoint:
+                inspect(point)
+                change(to: .editingPoint)
+            case .addingPath:
                 break
-            case .addingPath, .addingRegion:
-                break
-            case .editingPoint:
+            case .addingPoint, .editingPoint:
                 (view as! MKPinAnnotationView).pinTintColor = MKPinAnnotationView.greenPinColor()
-                inspect(point: point)
-                mode = .editingPoint
+                inspect(point)
+                change(to: .editingPoint)
             case .editingPath:
-                break
-            case .editingRegion:
                 break
             }
         case is MKOverlay:
             let path = view.annotation as! Path
-            inspect(path: path)
+            inspect(path)
         default:
             break
         }
@@ -354,10 +388,10 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         switch view {
         case is MKPinAnnotationView:
             selectedPoint = nil
-            inspect(point: nil)
+            inspect(map)
             (view as! MKPinAnnotationView).pinTintColor = MKPinAnnotationView.redPinColor()
             if mode == .editingPoint {
-                mode = .viewing
+                change(to: .viewing)
             }
         default:
             break
@@ -369,29 +403,27 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     }
     
     @IBAction func addPath(_ sender: Any) {
-        mode = .addingPath
-        updateUI()
+        change(to: .addingPath)
     }
     
-    @IBAction func addRegion(_ sender: Any) {
-        mode = .addingRegion
-        updateUI()
+    @IBAction func addPoints(_ sender: Any) {
+        change(to: .addingPoint)
     }
     
     func add(element: MapElement) {
         elements.append(element)
     }
     
-    func inspect(point maybePoint: Point?) {
-        if let point = maybePoint {
-            inspectorElementName.text = point.name
-            startMonthPicker.selectRow(point.start.rawMonth, inComponent: 0, animated: false)
-            startYearTextField.text = String(point.start.rawYear.magnitude)
-            startEraPicker.selectRow(point.start.rawEra, inComponent: 0, animated: false)
+    func inspect(_ maybeEntity: MapEntity?) {
+        if let entity = maybeEntity {
+            inspectorElementName.text = entity.name
+            startMonthPicker.selectRow(entity.start.rawMonth, inComponent: 0, animated: false)
+            startYearTextField.text = String(entity.start.rawYear.magnitude)
+            startEraPicker.selectRow(entity.start.rawEra, inComponent: 0, animated: false)
             
-            endMonthPicker.selectRow(point.end.rawMonth, inComponent: 0, animated: false)
-            endYearTextField.text = String(point.end.rawYear.magnitude)
-            endEraPicker.selectRow(point.end.rawEra, inComponent: 0, animated: false)
+            endMonthPicker.selectRow(entity.end.rawMonth, inComponent: 0, animated: false)
+            endYearTextField.text = String(entity.end.rawYear.magnitude)
+            endEraPicker.selectRow(entity.end.rawEra, inComponent: 0, animated: false)
         } else {
             inspectorElementName.text = ""
             startMonthPicker.selectRow(0, inComponent: 0, animated: false)
@@ -404,48 +436,10 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         }
     }
     
-    func inspect(path maybePath: Path?) {
-        if let path = maybePath {
-            inspectorElementName.text = path.name
-            startMonthPicker.selectRow(path.start.rawMonth, inComponent: 0, animated: false)
-            startYearTextField.text = String(path.start.rawYear.magnitude)
-            startEraPicker.selectRow(path.start.rawEra, inComponent: 0, animated: false)
-            
-            endMonthPicker.selectRow(path.end.rawMonth, inComponent: 0, animated: false)
-            endYearTextField.text = String(path.end.rawYear.magnitude)
-            endEraPicker.selectRow(path.end.rawEra, inComponent: 0, animated: false)
-        } else {
-            inspectorElementName.text = ""
-            startMonthPicker.selectRow(0, inComponent: 0, animated: false)
-            startYearTextField.text = "0"
-            startEraPicker.selectRow(0, inComponent: 0, animated: false)
-            
-            endMonthPicker.selectRow(0, inComponent: 0, animated: false)
-            endYearTextField.text = "0"
-            endEraPicker.selectRow(0, inComponent: 0, animated: false)
-        }
-    }
-    
-    func inspect(map maybeMap: Map?) {
-        if let map = maybeMap {
-            inspectorElementName.text = map.name
-            startMonthPicker.selectRow(map.start.rawMonth, inComponent: 0, animated: false)
-            startYearTextField.text = String(map.start.rawYear.magnitude)
-            startEraPicker.selectRow(map.start.rawEra, inComponent: 0, animated: false)
-            
-            endMonthPicker.selectRow(map.end.rawMonth, inComponent: 0, animated: false)
-            endYearTextField.text = String(map.end.rawYear.magnitude)
-            endEraPicker.selectRow(map.end.rawEra, inComponent: 0, animated: false)
-        } else {
-            inspectorElementName.text = ""
-            startMonthPicker.selectRow(0, inComponent: 0, animated: false)
-            startYearTextField.text = "0"
-            startEraPicker.selectRow(0, inComponent: 0, animated: false)
-            
-            endMonthPicker.selectRow(0, inComponent: 0, animated: false)
-            endYearTextField.text = "0"
-            endEraPicker.selectRow(0, inComponent: 0, animated: false)
-        }
+    func change(to mode: MapMode) {
+        self.mode = mode
+        self.inspectorViewModeLabel.text = mode.rawValue
+        updateUI()
     }
     
     func updateUI() {
@@ -455,25 +449,28 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
             addRegionButton.isHidden = false
             
             doneButton.isHidden = true
-            cancelButton.isHidden = true
-        case .creatingPoint, .addingPath, .addingRegion:
-            addPathButton.isHidden = true
-            addRegionButton.isHidden = true
-            
-            doneButton.isHidden = false
-            doneButton.isEnabled = false
-            
-            cancelButton.isHidden = false
-        case .editingPoint, .editingPath, .editingRegion:
+        case .addingPoint:
             addPathButton.isHidden = true
             addRegionButton.isHidden = true
             
             doneButton.isHidden = false
             doneButton.isEnabled = true
             
-            cancelButton.isHidden = false
+        case .addingPath:
+            addPathButton.isHidden = true
+            addRegionButton.isHidden = true
+            
+            doneButton.isHidden = false
+            doneButton.isEnabled = false
+            
+        case .editingPoint, .editingPath:
+            addPathButton.isHidden = true
+            addRegionButton.isHidden = true
+            
+            doneButton.isHidden = false
+            doneButton.isEnabled = true
         }
-    
+        
     }
     
     func updateDate() {
@@ -502,14 +499,14 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         }
         let newOverlays = newMapObjects.filter { (annotation) -> Bool in
             annotation is MKOverlay
-        } as! [MKOverlay]
+            } as! [MKOverlay]
         
         if element != nil {
             switch element {
             case is Point:
-                 mapView.addAnnotation(element!.annotation(for: date))
+                mapView.addAnnotation(element!.annotation(for: date))
             case is Path:
-                 mapView.addOverlay(element!.annotation(for: date) as! MKOverlay)
+                mapView.addOverlay(element!.annotation(for: date) as! MKOverlay)
             default:
                 assert(false, "unhandled element type")
             }
@@ -578,12 +575,9 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                     date.rawValue = Int(slider.minimumValue)
                 }
                 updateDate()
-            case .creatingPoint:
+            case .addingPoint:
                 assert(false, "pickerView should be hidden")
             case .addingPath:
-                print("need to implement")
-                break
-            case .addingRegion:
                 print("need to implement")
                 break
             case .editingPoint:
@@ -592,9 +586,6 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 selectedPoint.calloutView.element = selectedPoint
                 break
             case .editingPath:
-                print("need to implement")
-                break
-            case .editingRegion:
                 print("need to implement")
                 break
             }
@@ -609,12 +600,9 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                     date.rawValue = Int(slider.maximumValue)
                 }
                 updateDate()
-            case .creatingPoint:
+            case .addingPoint:
                 assert(false, "pickerView should be hidden")
             case .addingPath:
-                print("need to implement")
-                break
-            case .addingRegion:
                 print("need to implement")
                 break
             case .editingPoint:
@@ -623,9 +611,6 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 selectedPoint.calloutView.element = selectedPoint
                 break
             case .editingPath:
-                print("need to implement")
-                break
-            case .editingRegion:
                 print("need to implement")
                 break
             }
@@ -642,12 +627,9 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                     date.rawValue = Int(slider.minimumValue)
                 }
                 updateDate()
-            case .creatingPoint:
+            case .addingPoint:
                 assert(false, "pickerView should be hidden")
             case .addingPath:
-                print("need to implement")
-                break
-            case .addingRegion:
                 print("need to implement")
                 break
             case .editingPoint:
@@ -657,9 +639,6 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 selectedPoint.calloutView.element = selectedPoint
                 break
             case .editingPath:
-                print("need to implement")
-                break
-            case .editingRegion:
                 print("need to implement")
                 break
             }
@@ -676,12 +655,9 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                     date.rawValue = Int(slider.maximumValue)
                 }
                 updateDate()
-            case .creatingPoint:
+            case .addingPoint:
                 assert(false, "pickerView should be hidden")
             case .addingPath:
-                print("need to implement")
-                break
-            case .addingRegion:
                 print("need to implement")
                 break
             case .editingPoint:
@@ -691,9 +667,6 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 selectedPoint.calloutView.element = selectedPoint
                 break
             case .editingPath:
-                print("need to implement")
-                break
-            case .editingRegion:
                 print("need to implement")
                 break
             }
@@ -712,6 +685,18 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         inspectorView.frame = CGRect(x: 0, y: 0, width: 300, height: 834)
         self.view.endEditing(true)
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.count == 0 {
+            return true
+        }
+        if textField == startYearTextField || textField == endYearTextField {
+            if string.rangeOfCharacter(from: NSCharacterSet.decimalDigits) == nil{
+                return false
+            }
+        }
         return true
     }
     
@@ -740,4 +725,5 @@ class EraPickerView : UIPickerView, CustomPickerView {
     let count = 2
     let options = HistoricalDate.eras
 }
+
 

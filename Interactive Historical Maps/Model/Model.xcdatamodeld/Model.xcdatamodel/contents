@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Element" representedClassName="Element" isAbstract="YES" syncable="YES" codeGenerationType="class">
-        <attribute name="end" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="start" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endInt32" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startInt32" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="textDescription" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="map" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Map" inverseName="elements" inverseEntity="Map" syncable="YES"/>
     </entity>
     <entity name="Map" representedClassName="Map" syncable="YES" codeGenerationType="class">
@@ -21,7 +22,7 @@
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Element" positionX="-4620.53515625" positionY="-758.640625" width="128" height="103"/>
+        <element name="Element" positionX="-4620.53515625" positionY="-758.640625" width="128" height="120"/>
         <element name="Map" positionX="-4767.34765625" positionY="-922.0078125" width="128" height="120"/>
         <element name="Path" positionX="-4698" positionY="-810" width="128" height="60"/>
         <element name="Point" positionX="-4644" positionY="-747" width="128" height="75"/>
