@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EB81A5D521A9029A009C3792 /* MapElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5D421A9029A009C3792 /* MapElement.swift */; };
+		EB3E6F4121BC7C8F0060B3DF /* MapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3E6F4021BC7C8F0060B3DF /* MapTableViewCell.swift */; };
+		EB431B1621BC9B5B00AE1519 /* EditorTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB431B1521BC9B5B00AE1519 /* EditorTabBarController.swift */; };
+		EB431B1821BC9CC900AE1519 /* AudioRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB431B1721BC9CC900AE1519 /* AudioRecordingViewController.swift */; };
+		EB431B1A21BC9CFC00AE1519 /* AudioIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB431B1921BC9CFC00AE1519 /* AudioIntegrationViewController.swift */; };
+		EB431B1C21BC9D0700AE1519 /* PublishingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB431B1B21BC9D0700AE1519 /* PublishingViewController.swift */; };
+		EB431B1E21BCEB8200AE1519 /* TouchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB431B1D21BCEB8200AE1519 /* TouchView.swift */; };
+		EB81A5D521A9029A009C3792 /* MapEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5D421A9029A009C3792 /* MapEntity.swift */; };
 		EB81A5DB21ABA201009C3792 /* CalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB81A5D921ABA201009C3792 /* CalloutView.xib */; };
 		EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5DA21ABA201009C3792 /* CalloutView.swift */; };
 		EB81A5DE21ABAE1C009C3792 /* HistoricalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */; };
@@ -15,7 +21,7 @@
 		EB917D5121B49EF4009D5953 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB917D4D21B49EF4009D5953 /* Map.swift */; };
 		EB917D5221B49EF4009D5953 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EB917D4E21B49EF4009D5953 /* Model.xcdatamodeld */; };
 		EBF39488218D0B000038CE18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF39487218D0B000038CE18 /* AppDelegate.swift */; };
-		EBF3948A218D0B000038CE18 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF39489218D0B000038CE18 /* ViewController.swift */; };
+		EBF3948A218D0B000038CE18 /* MapEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF39489218D0B000038CE18 /* MapEditorViewController.swift */; };
 		EBF3948D218D0B000038CE18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF3948B218D0B000038CE18 /* Main.storyboard */; };
 		EBF3948F218D0B010038CE18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBF3948E218D0B010038CE18 /* Assets.xcassets */; };
 		EBF39492218D0B010038CE18 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF39490218D0B010038CE18 /* LaunchScreen.storyboard */; };
@@ -37,7 +43,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		EB81A5D421A9029A009C3792 /* MapElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapElement.swift; sourceTree = "<group>"; };
+		EB3E6F4021BC7C8F0060B3DF /* MapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewCell.swift; sourceTree = "<group>"; };
+		EB431B1521BC9B5B00AE1519 /* EditorTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditorTabBarController.swift; path = "Interactive Historical Maps/Controller/EditorTabBarController.swift"; sourceTree = SOURCE_ROOT; };
+		EB431B1721BC9CC900AE1519 /* AudioRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AudioRecordingViewController.swift; path = "Interactive Historical Maps/Controller/AudioRecordingViewController.swift"; sourceTree = SOURCE_ROOT; };
+		EB431B1921BC9CFC00AE1519 /* AudioIntegrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AudioIntegrationViewController.swift; path = "Interactive Historical Maps/Controller/AudioIntegrationViewController.swift"; sourceTree = SOURCE_ROOT; };
+		EB431B1B21BC9D0700AE1519 /* PublishingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishingViewController.swift; sourceTree = "<group>"; };
+		EB431B1D21BCEB8200AE1519 /* TouchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchView.swift; sourceTree = "<group>"; };
+		EB81A5D421A9029A009C3792 /* MapEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEntity.swift; sourceTree = "<group>"; };
 		EB81A5D921ABA201009C3792 /* CalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalloutView.xib; sourceTree = "<group>"; };
 		EB81A5DA21ABA201009C3792 /* CalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
 		EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalDate.swift; sourceTree = "<group>"; };
@@ -46,7 +58,7 @@
 		EB917D4F21B49EF4009D5953 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		EBF39484218D0B000038CE18 /* Interactive Historical Maps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Interactive Historical Maps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBF39487218D0B000038CE18 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EBF39489218D0B000038CE18 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EBF39489218D0B000038CE18 /* MapEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEditorViewController.swift; sourceTree = "<group>"; };
 		EBF3948C218D0B000038CE18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EBF3948E218D0B010038CE18 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EBF39491218D0B010038CE18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -83,7 +95,9 @@
 			children = (
 				EB81A5DA21ABA201009C3792 /* CalloutView.swift */,
 				EB81A5D921ABA201009C3792 /* CalloutView.xib */,
+				EB431B1D21BCEB8200AE1519 /* TouchView.swift */,
 				EBF3948B218D0B000038CE18 /* Main.storyboard */,
+				EB3E6F4021BC7C8F0060B3DF /* MapTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -95,7 +109,7 @@
 				EB917D4C21B49EF4009D5953 /* Model.swift */,
 				EB917D4E21B49EF4009D5953 /* Model.xcdatamodeld */,
 				EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */,
-				EB81A5D421A9029A009C3792 /* MapElement.swift */,
+				EB81A5D421A9029A009C3792 /* MapEntity.swift */,
 				EBFB40FC21B4A89D0088DAC4 /* Point.swift */,
 				EBFB40FE21B4A8A70088DAC4 /* Path.swift */,
 			);
@@ -107,8 +121,12 @@
 			children = (
 				EBFB410221B4CD320088DAC4 /* HelpViewController.swift */,
 				EBF39487218D0B000038CE18 /* AppDelegate.swift */,
-				EBF39489218D0B000038CE18 /* ViewController.swift */,
+				EB431B1521BC9B5B00AE1519 /* EditorTabBarController.swift */,
 				EBFB410021B4B83A0088DAC4 /* LandingViewController.swift */,
+				EBF39489218D0B000038CE18 /* MapEditorViewController.swift */,
+				EB431B1721BC9CC900AE1519 /* AudioRecordingViewController.swift */,
+				EB431B1921BC9CFC00AE1519 /* AudioIntegrationViewController.swift */,
+				EB431B1B21BC9D0700AE1519 /* PublishingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -255,17 +273,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBF3948A218D0B000038CE18 /* ViewController.swift in Sources */,
+				EB431B1821BC9CC900AE1519 /* AudioRecordingViewController.swift in Sources */,
+				EBF3948A218D0B000038CE18 /* MapEditorViewController.swift in Sources */,
 				EB81A5DE21ABAE1C009C3792 /* HistoricalDate.swift in Sources */,
 				EBFB410121B4B83A0088DAC4 /* LandingViewController.swift in Sources */,
+				EB431B1A21BC9CFC00AE1519 /* AudioIntegrationViewController.swift in Sources */,
 				EBF39488218D0B000038CE18 /* AppDelegate.swift in Sources */,
 				EB917D5221B49EF4009D5953 /* Model.xcdatamodeld in Sources */,
+				EB431B1C21BC9D0700AE1519 /* PublishingViewController.swift in Sources */,
 				EB917D5121B49EF4009D5953 /* Map.swift in Sources */,
 				EBFB40FD21B4A89D0088DAC4 /* Point.swift in Sources */,
 				EBFB410321B4CD320088DAC4 /* HelpViewController.swift in Sources */,
+				EB431B1621BC9B5B00AE1519 /* EditorTabBarController.swift in Sources */,
 				EB917D5021B49EF4009D5953 /* Model.swift in Sources */,
-				EB81A5D521A9029A009C3792 /* MapElement.swift in Sources */,
+				EB3E6F4121BC7C8F0060B3DF /* MapTableViewCell.swift in Sources */,
+				EB81A5D521A9029A009C3792 /* MapEntity.swift in Sources */,
 				EBFB40FF21B4A8A70088DAC4 /* Path.swift in Sources */,
+				EB431B1E21BCEB8200AE1519 /* TouchView.swift in Sources */,
 				EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

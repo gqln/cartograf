@@ -17,6 +17,8 @@ class HistoricalDate : CustomStringConvertible, Hashable {
     var rawYear : Int { return Int(floor(Double(adjustedValue) / 12.0)) }
     var rawEra : Int { return rawYear >= 0 ? 1 : 0 }
     
+    var rawInt32 : Int32 { return Int32(rawValue) }
+    
     var month : String { return HistoricalDate.months[rawMonth] }
     var year : String {
         return rawYear >= 0 ? "\(rawYear) AD" : "\(abs(rawYear)) BC"
@@ -26,7 +28,7 @@ class HistoricalDate : CustomStringConvertible, Hashable {
         rawValue = (year * 12 + month) * HistoricalDate.ticks
     }
     
-    private init(_ rawValue: Int) {
+    init(_ rawValue: Int) {
         self.rawValue = rawValue
     }
     

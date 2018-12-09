@@ -23,7 +23,7 @@ class CalloutView : UIView {
 //    var delegate : MapDelegate?
     
     // Populate the callout's view elements upon setting properties
-    var element : MapElement? {
+    var element : MapEntity? {
         didSet {
             elementNameLabel.text = element!.name
             
@@ -37,12 +37,11 @@ class CalloutView : UIView {
             case is Path:
                 let path = element as! Path
                 coordinate = path.last().coordinate
-//            case is Region:
-//                break
             default:
                 break
             }
             coordinateLabel.text = coordinate != nil ? "\(coordinate!.latitude), \(coordinate!.longitude)" : "N/A"
+
         }
     }
     

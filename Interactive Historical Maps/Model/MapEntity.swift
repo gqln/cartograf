@@ -9,9 +9,12 @@
 import Foundation
 import MapKit
 
-protocol MapElement {
+protocol MapEntity {
     var name : String? { get set }
-    var start : HistoricalDate { get set }
-    var end : HistoricalDate { get set }
+    var start : HistoricalDate { get }
+    var end : HistoricalDate { get }
+}
+
+protocol MapElement : MapEntity {
     func annotation(for date: HistoricalDate) -> MKAnnotation
 }

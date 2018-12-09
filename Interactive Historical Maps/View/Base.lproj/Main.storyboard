@@ -21,73 +21,163 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dU5-yR-OHT">
                                 <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                             </mapView>
-                            <view opaque="NO" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u6F-ST-uD1">
-                                <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                            <view opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u6F-ST-uD1">
+                                <rect key="frame" x="0.0" y="-20" width="1112" height="874"/>
                                 <color key="backgroundColor" red="0.98431372549999996" green="0.0098851779789999993" blue="0.54627446739999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="T8Y-Wh-U9H">
-                                <rect key="frame" x="698" y="25" width="389" height="784"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MapTableViewCell" id="9Xt-cl-bri">
-                                        <rect key="frame" x="0.0" y="28" width="389" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9Xt-cl-bri" id="VZ8-ed-MV6">
-                                            <rect key="frame" x="0.0" y="0.0" width="389" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="652-2A-2GP">
-                                <rect key="frame" x="50" y="284" width="373.5" height="286.5"/>
-                                <string key="text">Interactive
-Historical
-Maps</string>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="80"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B7o-tB-qH3">
+                                <rect key="frame" x="591.5" y="167" width="500.5" height="500"/>
+                                <subviews>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCI-xR-ZNm">
+                                        <rect key="frame" x="0.0" y="445" width="500.5" height="45"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="eEd-Kg-MMj"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                                        <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Create New Map"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="createNewMapClicked:" destination="utl-1x-FR8" eventType="touchUpInside" id="Ny4-7X-SgO"/>
+                                        </connections>
+                                    </button>
+                                    <tableView contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="40" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="T8Y-Wh-U9H">
+                                        <rect key="frame" x="0.0" y="10" width="500.5" height="425"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="425" id="Tx1-sz-e1o"/>
+                                        </constraints>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Map Cell" id="9Xt-cl-bri" customClass="MapTableViewCell" customModule="Interactive_Historical_Maps" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="40" width="500.5" height="90"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9Xt-cl-bri" id="VZ8-ed-MV6">
+                                                    <rect key="frame" x="0.0" y="0.0" width="500.5" height="89.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISj-76-YZN">
+                                                            <rect key="frame" x="15" y="11" width="51" height="27.5"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="czH-to-Z0O">
+                                                            <rect key="frame" x="450" y="63" width="35.5" height="17"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECv-3M-JJI">
+                                                            <rect key="frame" x="15" y="63" width="35.5" height="17"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ISj-76-YZN" secondAttribute="trailing" constant="20" symbolic="YES" id="6ib-4y-2Rt"/>
+                                                        <constraint firstAttribute="bottom" secondItem="ECv-3M-JJI" secondAttribute="bottom" constant="9.5" id="6sB-8O-Kj9"/>
+                                                        <constraint firstItem="ISj-76-YZN" firstAttribute="leading" secondItem="VZ8-ed-MV6" secondAttribute="leading" constant="15" id="9Jw-f3-ayt"/>
+                                                        <constraint firstItem="ECv-3M-JJI" firstAttribute="leading" secondItem="ISj-76-YZN" secondAttribute="leading" id="CrV-t4-i3G"/>
+                                                        <constraint firstAttribute="trailing" secondItem="czH-to-Z0O" secondAttribute="trailing" constant="15" id="M9g-Zr-ohd"/>
+                                                        <constraint firstItem="ECv-3M-JJI" firstAttribute="bottom" secondItem="czH-to-Z0O" secondAttribute="bottom" id="NtO-Xy-V4b"/>
+                                                        <constraint firstItem="ISj-76-YZN" firstAttribute="top" secondItem="VZ8-ed-MV6" secondAttribute="top" constant="11" id="g7h-WZ-fhp"/>
+                                                        <constraint firstItem="czH-to-Z0O" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ECv-3M-JJI" secondAttribute="trailing" constant="8" symbolic="YES" id="sDl-yg-8at"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="8"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </tableViewCellContentView>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="8"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <outlet property="mapAuthorLabel" destination="ECv-3M-JJI" id="IAe-VP-uxU"/>
+                                                    <outlet property="mapNameLabel" destination="ISj-76-YZN" id="JFs-jR-6yi"/>
+                                                    <outlet property="mapTimeRangeLabel" destination="czH-to-Z0O" id="haq-7f-2Fb"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </tableView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="wCI-xR-ZNm" firstAttribute="top" secondItem="T8Y-Wh-U9H" secondAttribute="bottom" constant="10" id="4cm-9u-5e7"/>
+                                    <constraint firstItem="T8Y-Wh-U9H" firstAttribute="centerX" secondItem="B7o-tB-qH3" secondAttribute="centerX" id="QRr-L3-re6"/>
+                                    <constraint firstItem="wCI-xR-ZNm" firstAttribute="width" secondItem="T8Y-Wh-U9H" secondAttribute="width" id="aTb-bZ-Hw0"/>
+                                    <constraint firstItem="wCI-xR-ZNm" firstAttribute="centerX" secondItem="B7o-tB-qH3" secondAttribute="centerX" id="dPh-GC-qVQ"/>
+                                    <constraint firstItem="T8Y-Wh-U9H" firstAttribute="width" secondItem="B7o-tB-qH3" secondAttribute="width" id="k89-Fl-eww"/>
+                                    <constraint firstAttribute="bottom" secondItem="wCI-xR-ZNm" secondAttribute="bottom" constant="10" id="oUO-Zc-O5o"/>
+                                    <constraint firstItem="T8Y-Wh-U9H" firstAttribute="top" secondItem="B7o-tB-qH3" secondAttribute="top" constant="10" id="xdf-yt-0gY"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cartograf" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="652-2A-2GP">
+                                <rect key="frame" x="50" y="367.5" width="439" height="119.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="100"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interactive Narrated Maps" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5W7-yq-Y3D">
+                                <rect key="frame" x="61" y="487" width="417.5" height="48"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="35"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="-2" height="1"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="B7o-tB-qH3" firstAttribute="centerY" secondItem="u6F-ST-uD1" secondAttribute="centerY" id="7qt-XK-03z"/>
                             <constraint firstItem="dU5-yR-OHT" firstAttribute="leading" secondItem="mwo-Os-5Ps" secondAttribute="leading" id="9Xm-3y-j6H"/>
-                            <constraint firstItem="T8Y-Wh-U9H" firstAttribute="width" secondItem="dU5-yR-OHT" secondAttribute="width" multiplier="0.35" id="9ko-JH-5PY"/>
-                            <constraint firstItem="T8Y-Wh-U9H" firstAttribute="top" secondItem="dU5-yR-OHT" secondAttribute="top" constant="25" id="9yH-WV-W2K"/>
+                            <constraint firstItem="B7o-tB-qH3" firstAttribute="top" relation="greaterThanOrEqual" secondItem="mwo-Os-5Ps" secondAttribute="top" constant="10" id="Ffg-b0-i1X"/>
+                            <constraint firstItem="5W7-yq-Y3D" firstAttribute="top" secondItem="652-2A-2GP" secondAttribute="bottom" id="H2f-hI-CC1"/>
+                            <constraint firstItem="mwo-Os-5Ps" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="B7o-tB-qH3" secondAttribute="bottom" constant="10" id="Ipm-Th-PDy"/>
+                            <constraint firstItem="mwo-Os-5Ps" firstAttribute="trailing" secondItem="B7o-tB-qH3" secondAttribute="trailing" constant="20" id="JnC-H5-uch"/>
+                            <constraint firstItem="B7o-tB-qH3" firstAttribute="width" secondItem="l46-F7-nnO" secondAttribute="width" multiplier="0.45" id="L6j-eD-tbv"/>
                             <constraint firstItem="u6F-ST-uD1" firstAttribute="centerX" secondItem="dU5-yR-OHT" secondAttribute="centerX" id="Nhj-s5-gIc"/>
-                            <constraint firstItem="T8Y-Wh-U9H" firstAttribute="bottom" secondItem="dU5-yR-OHT" secondAttribute="bottom" constant="-25" id="VD7-iJ-owj"/>
                             <constraint firstItem="u6F-ST-uD1" firstAttribute="centerY" secondItem="dU5-yR-OHT" secondAttribute="centerY" id="VRG-Oy-0se"/>
                             <constraint firstItem="652-2A-2GP" firstAttribute="centerY" secondItem="mwo-Os-5Ps" secondAttribute="centerY" id="Xwt-Fn-SBg"/>
-                            <constraint firstItem="T8Y-Wh-U9H" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="652-2A-2GP" secondAttribute="trailing" constant="8" symbolic="YES" id="dXM-KK-8Xm"/>
+                            <constraint firstItem="5W7-yq-Y3D" firstAttribute="centerX" secondItem="652-2A-2GP" secondAttribute="centerX" id="dD0-xg-oPG"/>
                             <constraint firstItem="652-2A-2GP" firstAttribute="leading" secondItem="mwo-Os-5Ps" secondAttribute="leading" constant="50" id="fBO-gp-bg8"/>
-                            <constraint firstItem="u6F-ST-uD1" firstAttribute="height" secondItem="dU5-yR-OHT" secondAttribute="height" id="jJA-IG-x2W"/>
+                            <constraint firstItem="u6F-ST-uD1" firstAttribute="height" secondItem="dU5-yR-OHT" secondAttribute="height" constant="40" id="jJA-IG-x2W"/>
                             <constraint firstItem="u6F-ST-uD1" firstAttribute="width" secondItem="dU5-yR-OHT" secondAttribute="width" id="k8o-1A-Srp"/>
+                            <constraint firstItem="B7o-tB-qH3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="652-2A-2GP" secondAttribute="trailing" constant="8" symbolic="YES" id="qap-1W-WUn"/>
                             <constraint firstItem="mwo-Os-5Ps" firstAttribute="top" secondItem="dU5-yR-OHT" secondAttribute="top" constant="20" id="v79-H5-5MX"/>
                             <constraint firstItem="mwo-Os-5Ps" firstAttribute="bottom" secondItem="dU5-yR-OHT" secondAttribute="bottom" id="wg3-ID-Ucx"/>
-                            <constraint firstItem="T8Y-Wh-U9H" firstAttribute="trailing" secondItem="dU5-yR-OHT" secondAttribute="trailing" constant="-25" id="xdd-tM-8Bi"/>
                             <constraint firstItem="mwo-Os-5Ps" firstAttribute="trailing" secondItem="dU5-yR-OHT" secondAttribute="trailing" id="y9A-wP-YwN"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mwo-Os-5Ps"/>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="dU5-yR-OHT" id="R1a-hI-wvJ"/>
-                        <outlet property="tableView" destination="T8Y-Wh-U9H" id="pDe-0I-hKE"/>
+                        <outlet property="mapsTableView" destination="T8Y-Wh-U9H" id="pDe-0I-hKE"/>
+                        <outlet property="tableViewHeightConstraint" destination="Tx1-sz-e1o" id="t0P-qI-xCx"/>
                         <segue destination="8U8-Hx-6rD" kind="show" identifier="EditMap" id="q0b-Wo-TeP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dwa-Oc-Jc3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6" y="-10"/>
+            <point key="canvasLocation" x="-6.4748201438848927" y="-10.071942446043167"/>
         </scene>
         <!--Edit Map-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Edit Map" id="BYZ-38-t0r" customClass="ViewController" customModule="Interactive_Historical_Maps" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Edit Map" id="BYZ-38-t0r" customClass="MapEditorViewController" customModule="Interactive_Historical_Maps" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -297,64 +387,70 @@ Maps</string>
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="784"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5vX-Up-92k">
-                                                <rect key="frame" x="10" y="65" width="26" height="13.5"/>
+                                                <rect key="frame" x="10" y="84" width="26" height="13.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start must occur before end." textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4M-k4-wwh">
-                                                <rect key="frame" x="138" y="64.5" width="152" height="14"/>
+                                                <rect key="frame" x="138" y="83.5" width="152" height="14"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <color key="textColor" red="0.98823529409999999" green="0.30196078430000001" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mpO-rW-58L">
-                                                <rect key="frame" x="156" y="113.5" width="63" height="30"/>
+                                                <rect key="frame" x="156" y="132.5" width="63" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m0F-c5-3QF" customClass="MonthPickerView" customModule="Interactive_Historical_Maps" customModuleProvider="target">
-                                                <rect key="frame" x="3" y="83.5" width="150" height="90"/>
+                                                <rect key="frame" x="3" y="102.5" width="150" height="90"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="150" id="6cM-Pc-XLi"/>
                                                     <constraint firstAttribute="height" constant="90" id="hgo-Vq-tLb"/>
                                                 </constraints>
                                             </pickerView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="khh-Gt-3bm">
-                                                <rect key="frame" x="10" y="181.5" width="20" height="13.5"/>
+                                                <rect key="frame" x="10" y="200.5" width="20" height="13.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I1H-Ba-KFU" customClass="MonthPickerView" customModule="Interactive_Historical_Maps" customModuleProvider="target">
-                                                <rect key="frame" x="3" y="200" width="150" height="90"/>
+                                                <rect key="frame" x="3" y="219" width="150" height="90"/>
                                             </pickerView>
                                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Rh-WX-MN2" customClass="EraPickerView" customModule="Interactive_Historical_Maps" customModuleProvider="target">
-                                                <rect key="frame" x="222" y="83.5" width="75" height="90"/>
+                                                <rect key="frame" x="222" y="102.5" width="75" height="90"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="75" id="tHO-TU-jmX"/>
                                                 </constraints>
                                             </pickerView>
                                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IMY-46-ICR" customClass="EraPickerView" customModule="Interactive_Historical_Maps" customModuleProvider="target">
-                                                <rect key="frame" x="222" y="200" width="75" height="90"/>
+                                                <rect key="frame" x="222" y="219" width="75" height="90"/>
                                             </pickerView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BNk-hP-Pdm">
-                                                <rect key="frame" x="156" y="230" width="63" height="30"/>
+                                                <rect key="frame" x="156" y="249" width="63" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Element Name" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w5E-Zn-vNF">
-                                                <rect key="frame" x="10" y="25" width="280" height="30"/>
+                                                <rect key="frame" x="10" y="44" width="280" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Must select a year." textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2eA-nh-bqT">
-                                                <rect key="frame" x="193" y="181" width="99" height="14"/>
+                                                <rect key="frame" x="193" y="200" width="99" height="14"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <color key="textColor" red="0.98823529409999999" green="0.30196078430000001" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="thV-GH-4dA">
+                                                <rect key="frame" x="10" y="25" width="57" height="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -376,7 +472,6 @@ Maps</string>
                                             <constraint firstItem="I1H-Ba-KFU" firstAttribute="height" secondItem="m0F-c5-3QF" secondAttribute="height" id="Kn0-1e-cgT"/>
                                             <constraint firstAttribute="trailing" secondItem="X4M-k4-wwh" secondAttribute="trailing" constant="10" id="O6R-C8-7u1"/>
                                             <constraint firstItem="5vX-Up-92k" firstAttribute="top" secondItem="w5E-Zn-vNF" secondAttribute="bottom" constant="10" id="ODd-d6-NLU"/>
-                                            <constraint firstItem="w5E-Zn-vNF" firstAttribute="top" secondItem="mpf-Zj-u5w" secondAttribute="top" constant="25" id="OTJ-iJ-U4i"/>
                                             <constraint firstItem="2Rh-WX-MN2" firstAttribute="centerY" secondItem="m0F-c5-3QF" secondAttribute="centerY" id="RBr-Q8-knV"/>
                                             <constraint firstItem="w5E-Zn-vNF" firstAttribute="leading" secondItem="mpf-Zj-u5w" secondAttribute="leading" constant="10" id="Vn2-Nz-od4"/>
                                             <constraint firstItem="IMY-46-ICR" firstAttribute="height" secondItem="m0F-c5-3QF" secondAttribute="height" id="W6W-gF-nmb"/>
@@ -388,8 +483,11 @@ Maps</string>
                                             <constraint firstItem="2Rh-WX-MN2" firstAttribute="leading" secondItem="mpO-rW-58L" secondAttribute="trailing" constant="3" id="f1e-pf-5I2"/>
                                             <constraint firstItem="2eA-nh-bqT" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="khh-Gt-3bm" secondAttribute="trailing" constant="8" symbolic="YES" id="hdQ-fQ-TFq"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="5vX-Up-92k" secondAttribute="trailing" constant="20" symbolic="YES" id="q1r-en-3Yz"/>
+                                            <constraint firstItem="w5E-Zn-vNF" firstAttribute="top" secondItem="thV-GH-4dA" secondAttribute="bottom" constant="5" id="scv-Kv-SDs"/>
+                                            <constraint firstItem="thV-GH-4dA" firstAttribute="leading" secondItem="w5E-Zn-vNF" secondAttribute="leading" id="uEQ-GA-QAA"/>
                                             <constraint firstItem="I1H-Ba-KFU" firstAttribute="leading" secondItem="mpf-Zj-u5w" secondAttribute="leading" constant="3" id="vQF-ce-rvD"/>
                                             <constraint firstItem="I1H-Ba-KFU" firstAttribute="top" secondItem="khh-Gt-3bm" secondAttribute="bottom" constant="5" id="y2z-Et-UdN"/>
+                                            <constraint firstItem="thV-GH-4dA" firstAttribute="top" secondItem="mpf-Zj-u5w" secondAttribute="top" constant="25" id="yLz-SR-mlV"/>
                                             <constraint firstItem="IMY-46-ICR" firstAttribute="centerY" secondItem="I1H-Ba-KFU" secondAttribute="centerY" id="yTM-7w-MmY"/>
                                             <constraint firstItem="m0F-c5-3QF" firstAttribute="top" secondItem="5vX-Up-92k" secondAttribute="bottom" constant="5" id="yeJ-Ki-jnd"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="khh-Gt-3bm" secondAttribute="trailing" constant="20" symbolic="YES" id="ygr-aL-GXc"/>
@@ -464,6 +562,7 @@ Maps</string>
                         <outlet property="endMonthPicker" destination="I1H-Ba-KFU" id="FkU-lX-XqJ"/>
                         <outlet property="endYearTextField" destination="BNk-hP-Pdm" id="bs6-uf-hB4"/>
                         <outlet property="inspectorElementName" destination="w5E-Zn-vNF" id="hgV-AX-rtX"/>
+                        <outlet property="inspectorNameFieldTitleLabel" destination="thV-GH-4dA" id="ukx-up-had"/>
                         <outlet property="inspectorScrollView" destination="rOx-7X-mUf" id="g8S-Ul-idJ"/>
                         <outlet property="inspectorView" destination="mpf-Zj-u5w" id="KW0-wn-bsD"/>
                         <outlet property="mapView" destination="GVf-SN-9mZ" id="qfG-bH-ftH"/>
@@ -483,7 +582,7 @@ Maps</string>
         <!--Integrate-->
         <scene sceneID="suE-Ay-qb6">
             <objects>
-                <viewController title="Integrate" id="FKA-Up-Znw" sceneMemberID="viewController">
+                <viewController title="Integrate" id="FKA-Up-Znw" customClass="AudioIntegrationViewController" customModule="Interactive_Historical_Maps" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Otw-RP-fqw">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -499,7 +598,7 @@ Maps</string>
         <!--Publish-->
         <scene sceneID="IRQ-Ny-8Xe">
             <objects>
-                <viewController id="hoV-w7-acn" sceneMemberID="viewController">
+                <viewController id="hoV-w7-acn" customClass="PublishingViewController" customModule="Interactive_Historical_Maps" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e9h-7l-1an">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -515,7 +614,7 @@ Maps</string>
         <!--Record-->
         <scene sceneID="GKf-fd-VuQ">
             <objects>
-                <viewController id="tQo-lJ-vED" sceneMemberID="viewController">
+                <viewController id="tQo-lJ-vED" customClass="AudioRecordingViewController" customModule="Interactive_Historical_Maps" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bOp-Kx-rjq">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -528,10 +627,10 @@ Maps</string>
             </objects>
             <point key="canvasLocation" x="1269" y="822"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Editor Tab Bar Controller-->
         <scene sceneID="sB5-49-NGl">
             <objects>
-                <tabBarController id="8U8-Hx-6rD" sceneMemberID="viewController">
+                <tabBarController id="8U8-Hx-6rD" customClass="EditorTabBarController" customModule="Interactive_Historical_Maps" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3t4-fg-fty">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -546,7 +645,7 @@ Maps</string>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Akd-4t-ZiC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="627" y="-10"/>
+            <point key="canvasLocation" x="670" y="-10"/>
         </scene>
         <!--Help View Controller-->
         <scene sceneID="tfB-XR-v86">

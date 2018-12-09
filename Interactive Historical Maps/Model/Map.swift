@@ -8,3 +8,15 @@
 
 import Foundation
 
+extension Map : MapEntity {
+    var start : HistoricalDate { return HistoricalDate(Int(self.startInt32)) }
+    var end : HistoricalDate { return HistoricalDate(Int(self.endInt32)) }
+    
+    func set(start: HistoricalDate) {
+        self.startInt32 = start.rawInt32
+    }
+    
+    func set(end: HistoricalDate) {
+        self.endInt32 = end.rawInt32
+    }
+}

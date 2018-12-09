@@ -9,11 +9,13 @@
 import Foundation
 import MapKit
 
-class Point : MKPointAnnotation, MapElement {
+class Point : MKPointAnnotation, MapEntity, MapElement {
     var name: String?
     var start: HistoricalDate
     var end: HistoricalDate
     var new: Bool
+    
+    var calloutView : CalloutView!
     
     init(from start: HistoricalDate, to end: HistoricalDate, at coordinate: CLLocationCoordinate2D) {
         

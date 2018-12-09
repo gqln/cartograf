@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-class Path : MapElement {
+class Path : MapEntity, MapElement {
     var name: String?
     var start: HistoricalDate
     var end: HistoricalDate
