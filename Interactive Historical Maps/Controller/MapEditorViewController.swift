@@ -789,6 +789,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 self.chosenStart.change(year: year)
                 if attemptUpdateStartDate() {
                     selectedPoint?.start.change(year: year)
+                    selectedPoint.calloutView.element = selectedPoint
                     inspect(selectedPoint)
                 } else {
                     inspect(selectedPoint)
@@ -825,7 +826,9 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 }
             case .editingPoint, .addingPoint:
                 self.chosenEnd.change(year: year)
-                if attemptUpdateEndDate() {selectedPoint?.end.change(year: year)
+                if attemptUpdateEndDate() {
+                    selectedPoint?.end.change(year: year)
+                    selectedPoint.calloutView.element = selectedPoint
                     inspect(selectedPoint)
                 } else {
                     inspect(selectedPoint)
