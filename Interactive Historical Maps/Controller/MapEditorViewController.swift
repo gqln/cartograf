@@ -23,20 +23,25 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     
     let model = Model.shared
     
-    var element : MapElement?
+    var path : MapPath?
     
     // Elements should become two different arrays, as overlays and annotations are treated very differently
-    var elements : [MapElement] = []
+    var paths : [MapPath] = []
+    var points : [MapPoint] = []
     var mode : MapMode = .viewing
     
     var date : HistoricalDate!
     var earliest : HistoricalDate!
     var latest : HistoricalDate!
     
+    var chosenStart : HistoricalDate = HistoricalDate.zero.past
+    var chosenEnd : HistoricalDate = HistoricalDate.zero.future
+    
     let timeIncrement = 2
     
     var map : Map!
-    var selectedPoint : Point!
+    var index: Int!
+    var selectedPoint : MapPoint!
     
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var monthLabel: UILabel!
@@ -72,6 +77,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     @IBOutlet weak var deleteEntityButton: UIButton!
     
     @IBAction func saveClicked(_ sender: Any) {
+        model.saveContext()
         switch mode {
         case .viewing:
             dismiss(animated: true, completion: nil)
@@ -92,19 +98,38 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     
     @IBAction func doneClicked(_ sender: Any) {
         if mode == .addingPath || mode == .editingPath {
-            elements.append(element!)
-            map.addToElements(element as! Element)
+            paths.append(path!)
             model.saveContext()
         }
         change(to: .viewing)
         
-        element = nil
+        path = nil
         updateMap()
         updateUI()
     }
     
     @IBAction func deleteEntityClicked(_ sender: Any) {
-        
+        switch mode {
+        case .viewing:
+            model.delete(map)
+            model.maps.remove(at: index)
+            saveClicked(self)
+        case .addingPath, .editingPath:
+            if path != nil {
+                path = nil
+                updateMap()
+                change(to: .viewing)
+                inspect(map)
+            }
+        case .addingPoint, .editingPoint:
+            if selectedPoint != nil {
+                model.context.delete(selectedPoint.point)
+                mapView.removeAnnotation(selectedPoint)
+                updateMap()
+                change(to: .viewing)
+                inspect(map)
+            }
+        }
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
@@ -113,11 +138,13 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     }
     
     func configure(for mapIndex: Int) {
+        self.index = mapIndex
         self.map = model.maps[mapIndex]
         self.date = map!.start
         self.earliest = map!.start
         self.latest = map!.end
-        self.elements = Array(map.elements!) as! [MapElement]
+        self.paths = map.paths
+        self.points = map.points
     }
     
     override func viewDidLoad() {
@@ -149,6 +176,10 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         startYearTextField.delegate = self
         endYearTextField.delegate = self
         
+        startYearTextField.addTarget(self, action: #selector(startYearChanged(_:)), for: .editingDidEnd)
+        endYearTextField.addTarget(self, action: #selector(endYearChanged(_:)), for: .editingDidEnd)
+        inspectorElementName.addTarget(self, action: #selector(inspectorElementNameChanged(_:)), for: .editingDidEnd)
+        
         var legalLabel: UIView?
         for subview in mapView.subviews {
             if String(describing: type(of: subview)) == "MKAttributionLabel" {
@@ -157,6 +188,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         }
         legalLabel?.isHidden = true
         
+        change(to: .viewing)
         inspect(map)
         
         mapNameLabel.text = map.name
@@ -217,9 +249,9 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 let touch = recognizer.location(in: mapView)
                 let coordinate = mapView.convert(touch, toCoordinateFrom: mapView)
                 
-                let point = Point(from: date.past, to: date.future, at: coordinate)
+                let point = MapPoint(from: date.past, to: date.future, at: coordinate, on: map)
                 point.new = true
-                add(element: point)
+                add(point: point)
                 updateMap()
             }
         case .addingPath:
@@ -241,7 +273,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 let touch = recognizer.location(in: mapView)
                 let coordinate = mapView.convert(touch, toCoordinateFrom: mapView)
                 
-                element = Path(on: date.copy, at: coordinate)
+                path = MapPath(on: date.copy, at: coordinate, on: map)
                 
                 change(to: .editingPath)
                 
@@ -250,10 +282,11 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 updateMap()
             case .cancelled, .failed, .possible:
                 
-                element = nil
+                path = nil
                 change(to: .viewing)
             default:
-                assert(false, "Should have changed to .editing")
+                print("Should have changed to .editing")
+                break
             }
         case .editingPath:
             switch recognizer.state {
@@ -265,8 +298,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 
                 if date + timeIncrement < latest {
                     date += timeIncrement
-                    let path = element as! Path
-                    path.extend(on: date.copy, to: coordinate)
+                    path!.extend(on: date.copy, to: coordinate)
                 } else {
                     recognizer.state = .ended
                 }
@@ -274,14 +306,13 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 updateDate()
                 updateMap()
             case .ended:
-                let path = element as! Path
                 date += timeIncrement
-                path.end(on: date.copy)
+                path!.end(on: date.copy)
                 
                 updateDate()
                 updateMap()
             case .cancelled, .failed, .possible:
-                element = nil
+                path = nil
                 change(to: .viewing)
             }
         default:
@@ -292,8 +323,8 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "pointElement"
         switch annotation {
-        case is Point:
-            let point = annotation as! Point
+        case is MapPoint:
+            let point = annotation as! MapPoint
             let isPointNew = point.new
             if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
                 let pin = annotationView as! MKPinAnnotationView
@@ -360,7 +391,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         switch view {
         case is MKPinAnnotationView:
             //            (view as! MKPinAnnotationView).setSelected(true, animated: true)
-            let point = view.annotation as! Point
+            let point = view.annotation as! MapPoint
             selectedPoint = point
             switch mode {
             case .viewing:
@@ -372,12 +403,11 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
             case .addingPoint, .editingPoint:
                 (view as! MKPinAnnotationView).pinTintColor = MKPinAnnotationView.greenPinColor()
                 inspect(point)
-                change(to: .editingPoint)
             case .editingPath:
                 break
             }
         case is MKOverlay:
-            let path = view.annotation as! Path
+            let path = view.annotation as! MapPath
             inspect(path)
         default:
             break
@@ -410,35 +440,50 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         change(to: .addingPoint)
     }
     
-    func add(element: MapElement) {
-        elements.append(element)
+//    func add(element: MapElement) {
+//        elements.append(element)
+//    }
+    
+    func add(point: MapPoint) {
+        points.append(point)
+    }
+    
+    func add(path: MapPath) {
+        paths.append(path)
     }
     
     func inspect(_ maybeEntity: MapEntity?) {
         if let entity = maybeEntity {
             inspectorElementName.text = entity.name
-            startMonthPicker.selectRow(entity.start.rawMonth, inComponent: 0, animated: false)
-            startYearTextField.text = String(entity.start.rawYear.magnitude)
-            startEraPicker.selectRow(entity.start.rawEra, inComponent: 0, animated: false)
+            chosenStart = entity.start
+            chosenEnd = entity.end
             
-            endMonthPicker.selectRow(entity.end.rawMonth, inComponent: 0, animated: false)
-            endYearTextField.text = String(entity.end.rawYear.magnitude)
-            endEraPicker.selectRow(entity.end.rawEra, inComponent: 0, animated: false)
+            updateStartDateUI()
+            updateEndDateUI()
         } else {
             inspectorElementName.text = ""
-            startMonthPicker.selectRow(0, inComponent: 0, animated: false)
-            startYearTextField.text = "0"
-            startEraPicker.selectRow(0, inComponent: 0, animated: false)
+            chosenStart = date
+            chosenEnd = date
             
-            endMonthPicker.selectRow(0, inComponent: 0, animated: false)
-            endYearTextField.text = "0"
-            endEraPicker.selectRow(0, inComponent: 0, animated: false)
+            updateStartDateUI()
+            updateEndDateUI()
         }
     }
     
     func change(to mode: MapMode) {
         self.mode = mode
         self.inspectorViewModeLabel.text = mode.rawValue
+        switch mode {
+        case .viewing:
+            deleteEntityButton.isEnabled = true
+            deleteEntityButton.titleLabel?.text = "Delete Map"
+        case .addingPath, .editingPath:
+            deleteEntityButton.isEnabled = (path != nil)
+            deleteEntityButton.titleLabel?.text = "Delete Path"
+        case .addingPoint, .editingPoint:
+            deleteEntityButton.isEnabled = (selectedPoint != nil)
+            deleteEntityButton.titleLabel?.text = "Delete Point"
+        }
         updateUI()
     }
     
@@ -470,7 +515,6 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
             doneButton.isHidden = false
             doneButton.isEnabled = true
         }
-        
     }
     
     func updateDate() {
@@ -480,36 +524,34 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     }
     
     func updateMap() {
-        let oldAnnotations = mapView.annotations as! [Point]
-        // mapView.removeAnnotations(oldAnnotations)
-        
         let oldOverlays = mapView.overlays
         mapView.removeOverlays(oldOverlays)
         
-        let currentElements = elements.filter { (element) -> Bool in
+        if let mapPath = path {
+            let overlay = mapPath.polyline(for: date)
+            if overlay != nil {
+                mapView.addOverlay(overlay!)
+            }
+        }
+        
+        let currentPaths = paths.filter { (element) -> Bool in
             element.start <= date && date <= element.end
         }
         
-        let newMapObjects = currentElements.map { (element) -> MKAnnotation in
-            element.annotation(for: date)
+        let newOverlays = currentPaths.map { (element) -> MKOverlay in
+            element.annotation(for: date) as! MKOverlay
         }
         
-        let newAnnotations = newMapObjects.filter { (annotation) -> Bool in
-            !(annotation is MKOverlay)
-        }
-        let newOverlays = newMapObjects.filter { (annotation) -> Bool in
-            annotation is MKOverlay
-            } as! [MKOverlay]
+        mapView.addOverlays(newOverlays)
         
-        if element != nil {
-            switch element {
-            case is Point:
-                mapView.addAnnotation(element!.annotation(for: date))
-            case is Path:
-                mapView.addOverlay(element!.annotation(for: date) as! MKOverlay)
-            default:
-                assert(false, "unhandled element type")
-            }
+        let currentPoints = points.filter { (element) -> Bool in
+            element.start <= date && date <= element.end
+        }
+        
+        let oldAnnotations = mapView.annotations as! [MapPoint]
+        
+        let newAnnotations = currentPoints.map { (element) -> MKAnnotation in
+            element.annotation(for: date)!
         }
         
         mapView.addAnnotations(newAnnotations)
@@ -521,9 +563,6 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
                 mapView.removeAnnotation(oldAnnotation)
             }
         }
-        
-        mapView.addOverlays(newOverlays)
-        // mapView.addAnnotations(newAnnotations)
     }
     
     // MARK: - PickerView
@@ -567,24 +606,30 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         case startMonthPicker:
             switch mode {
             case .viewing:
-                let year = earliest.rawYear
-                self.earliest = HistoricalDate(month: row, year: year)
-                map.set(start: self.earliest)
-                slider.minimumValue = Float(earliest.rawValue)
-                if date.rawValue < Int(slider.minimumValue) {
-                    date.rawValue = Int(slider.minimumValue)
+                self.chosenStart.change(month: row)
+                
+                if attemptUpdateStartDate() {
+                    self.earliest.change(month: row)
+                    map.set(start: self.earliest)
+                    slider.minimumValue = Float(earliest.rawValue)
+                    if date.rawValue < Int(slider.minimumValue) {
+                        date.rawValue = Int(slider.minimumValue)
+                        slider.value = slider.minimumValue
+                    }
+                    updateDate()
+                    inspect(map)
                 }
-                updateDate()
-            case .addingPoint:
-                assert(false, "pickerView should be hidden")
             case .addingPath:
                 print("need to implement")
                 break
-            case .editingPoint:
-                let year = selectedPoint.start.rawYear
-                selectedPoint.start = HistoricalDate(month: row, year: year)
-                selectedPoint.calloutView.element = selectedPoint
-                break
+            case .editingPoint, .addingPoint:
+                self.chosenStart.change(month: row)
+                
+                if attemptUpdateStartDate() {
+                    selectedPoint.start.change(month: row)
+                    selectedPoint.calloutView.element = selectedPoint
+                    inspect(selectedPoint)
+                }
             case .editingPath:
                 print("need to implement")
                 break
@@ -592,101 +637,114 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         case endMonthPicker:
             switch mode {
             case .viewing:
-                let year = latest.rawYear
-                self.latest = HistoricalDate(month: row, year: year)
-                map.set(end: self.latest)
-                slider.maximumValue = Float(latest.rawValue)
-                if date.rawValue > Int(slider.maximumValue) {
-                    date.rawValue = Int(slider.maximumValue)
+                self.chosenEnd.change(month: row)
+                
+                if attemptUpdateEndDate() {
+                    self.latest.change(month: row)
+                    map.set(end: self.latest)
+                    slider.maximumValue = Float(latest.rawValue)
+                    if date.rawValue > Int(slider.maximumValue) {
+                        date.rawValue = Int(slider.maximumValue)
+                        slider.value = slider.maximumValue
+                    }
+                    updateDate()
+                    inspect(map)
                 }
-                updateDate()
-            case .addingPoint:
-                assert(false, "pickerView should be hidden")
             case .addingPath:
                 print("need to implement")
                 break
-            case .editingPoint:
-                let year = selectedPoint.end.rawYear
-                selectedPoint.end = HistoricalDate(month: row, year: year)
-                selectedPoint.calloutView.element = selectedPoint
-                break
+            case .editingPoint, .addingPoint:
+                self.chosenEnd.change(month: row)
+                
+                if attemptUpdateEndDate() {
+                    selectedPoint.end.change(month: row)
+                    selectedPoint.calloutView.element = selectedPoint
+                    inspect(selectedPoint)
+                }
             case .editingPath:
                 print("need to implement")
                 break
             }
         case startEraPicker:
-            let era = row == 0 ? -1 : 1
             switch mode {
             case .viewing:
-                let year = Int(earliest.rawYear.magnitude)
-                let month = earliest.rawMonth
-                self.earliest = HistoricalDate(month: month, year: era*year)
-                map.set(start: self.earliest)
-                slider.minimumValue = Float(earliest.rawValue)
-                if date.rawValue < Int(slider.minimumValue) {
-                    date.rawValue = Int(slider.minimumValue)
+                self.chosenStart.change(era: row)
+                if attemptUpdateStartDate() {
+                    
+                    self.earliest.change(era: row)
+                    map.set(start: self.earliest)
+                    slider.minimumValue = Float(earliest.rawValue)
+                    if date.rawValue < Int(slider.minimumValue) {
+                        date.rawValue = Int(slider.minimumValue)
+                    }
+                    updateDate()
+                    inspect(map)
                 }
-                updateDate()
-            case .addingPoint:
-                assert(false, "pickerView should be hidden")
             case .addingPath:
                 print("need to implement")
                 break
-            case .editingPoint:
-                let year = selectedPoint.start.rawYear
-                let month = selectedPoint.start.rawMonth
-                selectedPoint.start = HistoricalDate(month: month, year: era*year)
+            case .editingPoint, .addingPoint:
+                
+                self.chosenStart.change(era: row)
+                if attemptUpdateStartDate() {
+                    
+                selectedPoint.start.change(era: row)
                 selectedPoint.calloutView.element = selectedPoint
+                inspect(selectedPoint)
+                }
                 break
             case .editingPath:
                 print("need to implement")
                 break
             }
         case endEraPicker:
-            let era = row == 0 ? -1 : 1
             switch mode {
             case .viewing:
-                let year = Int(latest.rawYear.magnitude)
-                let month = latest.rawMonth
-                self.latest = HistoricalDate(month: month, year: era*year)
-                map.set(end: self.latest)
-                slider.maximumValue = Float(latest.rawValue)
-                if date.rawValue > Int(slider.maximumValue) {
-                    date.rawValue = Int(slider.maximumValue)
+                self.chosenEnd.change(era: row)
+                
+                if attemptUpdateEndDate() {
+                    self.latest.change(era: row)
+                    map.set(end: self.latest)
+                    slider.maximumValue = Float(latest.rawValue)
+                    if date.rawValue > Int(slider.maximumValue) {
+                        date.rawValue = Int(slider.maximumValue)
+                    }
+                    updateDate()
+                    inspect(map)
                 }
-                updateDate()
-            case .addingPoint:
-                assert(false, "pickerView should be hidden")
             case .addingPath:
                 print("need to implement")
                 break
-            case .editingPoint:
-                let year = selectedPoint.end.rawYear
-                let month = selectedPoint.end.rawMonth
-                selectedPoint.end = HistoricalDate(month: month, year: era*year)
-                selectedPoint.calloutView.element = selectedPoint
+            case .editingPoint, .addingPoint:
+                self.chosenEnd.change(era: row)
+                
+                if attemptUpdateEndDate() {
+                    selectedPoint.end.change(era: row)
+                    selectedPoint.calloutView.element = selectedPoint
+                    inspect(selectedPoint)
+                }
                 break
             case .editingPath:
                 print("need to implement")
                 break
             }
         default:
-            assert(false, "Unhandled pickerView")
+            print("Unhandled pickerView")
         }
     }
     
     // MARK: - TextField
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        inspectorView.frame = CGRect(x: 0, y: -110, width: 300, height: 834)
-        return true
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        inspectorView.frame = CGRect(x: 0, y: 0, width: 300, height: 834)
-        self.view.endEditing(true)
-        return true
-    }
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        inspectorView.frame = CGRect(x: 0, y: -110, width: 300, height: 834)
+//        return true
+//    }
+//
+//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+//        inspectorView.frame = CGRect(x: 0, y: 0, width: 300, height: 834)
+//        self.view.endEditing(true)
+//        return true
+//    }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if string.count == 0 {
@@ -700,13 +758,163 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         return true
     }
     
-    // MARK: - REMOVE
+    @objc func startYearChanged(_ sender: UITextField) {
+        if let year = Int(sender.text!) {
+            switch mode {
+            case .viewing:
+                self.chosenStart.change(year: year)
+                if attemptUpdateStartDate() {
+                    self.earliest.change(year: year)
+                    map.set(start: self.earliest)
+                    slider.minimumValue = Float(earliest.rawValue)
+                    if date.rawValue < Int(slider.minimumValue) {
+                        date.rawValue = Int(slider.minimumValue)
+                    }
+                    updateDate()
+                    inspect(map)
+                } else {
+                    inspect(map)
+                }
+            case .editingPath, .addingPath:
+                self.chosenStart.change(year: year)
+                if attemptUpdateStartDate() {
+                    path?.start.change(year: year)
+                    inspect(path)
+                } else {
+                    inspect(path)
+                }
+            case .editingPoint, .addingPoint:
+                self.chosenStart.change(year: year)
+                if attemptUpdateStartDate() {
+                    selectedPoint?.start.change(year: year)
+                    inspect(selectedPoint)
+                } else {
+                    inspect(selectedPoint)
+                }
+            }
+        }
+    }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(inspectorScrollView.contentSize, inspectorView.frame.size)
-        print(inspectorScrollView.contentOffset)
-        print(inspectorScrollView.bounds.size.height)
-        print(inspectorScrollView.contentInset)
+    @objc func endYearChanged(_ sender: UITextField) {
+        if let year = Int(sender.text!) {
+            switch mode {
+            case .viewing:
+                self.chosenEnd.change(year: year)
+                if attemptUpdateEndDate() {
+                    self.latest.change(year: year)
+                    map.set(end: self.latest)
+                    slider.maximumValue = Float(latest.rawValue)
+                    if date.rawValue > Int(slider.maximumValue) {
+                        date.rawValue = Int(slider.maximumValue)
+                        slider.value = slider.maximumValue
+                    }
+                    updateDate()
+                    inspect(map)
+                } else {
+                    inspect(map)
+                }
+            case .editingPath, .addingPath:
+                self.chosenEnd.change(year: year)
+                if attemptUpdateEndDate() {
+                    path?.end.change(year: year)
+                    inspect(path)
+                } else {
+                    inspect(path)
+                }
+            case .editingPoint, .addingPoint:
+                self.chosenEnd.change(year: year)
+                if attemptUpdateEndDate() {selectedPoint?.end.change(year: year)
+                    inspect(selectedPoint)
+                } else {
+                    inspect(selectedPoint)
+                }
+            }
+        } 
+    }
+    
+    @objc func inspectorElementNameChanged(_ sender: UITextField) {
+        let text = sender.text
+        switch mode {
+        case .viewing:
+            map.name = text
+            mapNameLabel.text = map.name
+            inspect(map)
+        case .editingPath, .addingPath:
+            path?.name = text
+            inspect(path)
+        case .editingPoint, .addingPoint:
+            selectedPoint?.name = text
+            selectedPoint?.calloutView.element = selectedPoint
+            inspect(selectedPoint)
+        }
+    }
+    
+    func updateStartDateUI() {
+        startEraPicker.selectRow(chosenStart.rawEra, inComponent: 0, animated: true)
+        startMonthPicker.selectRow(chosenStart.rawMonth, inComponent: 0, animated: true)
+        startYearTextField.text = "\(chosenStart.rawYear.magnitude)"
+        
+        if chosenEnd <= chosenStart {
+            chosenEnd = chosenStart.future
+        }
+    }
+    
+    func updateEndDateUI() {
+        endEraPicker.selectRow(chosenEnd.rawEra, inComponent: 0, animated: true)
+        endMonthPicker.selectRow(chosenEnd.rawMonth, inComponent: 0, animated: true)
+        endYearTextField.text = "\(chosenEnd.rawYear.magnitude)"
+        
+        if chosenStart >= chosenEnd {
+            chosenStart = chosenStart.future
+        }
+    }
+    
+    func attemptUpdateStartDate() -> Bool {
+        if let year = Int(startYearTextField.text!) {
+            let month = startMonthPicker.selectedRow(inComponent: 0)
+            let era = startEraPicker.selectedRow(inComponent: 0)
+            let modifier = era == 0 ? -1 : 1
+            let adjusted = year * modifier
+            let selectedStartDate = HistoricalDate(month: month, year: adjusted)
+            
+            if selectedStartDate >= chosenEnd {
+                startDateWarningLabel.text = "Start must occur before end."
+                updateStartDateUI()
+                return false
+            } else {
+                startDateWarningLabel.text = ""
+                chosenStart = selectedStartDate
+                updateStartDateUI()
+                return true
+            }
+        } else {
+            startDateWarningLabel.text = "Enter a valid year."
+            return false
+        }
+    }
+    
+    func attemptUpdateEndDate() -> Bool {
+        if let year = Int(endYearTextField.text!) {
+            let month = endMonthPicker.selectedRow(inComponent: 0)
+            let era = endEraPicker.selectedRow(inComponent: 0)
+            let modifier = era == 0 ? -1 : 1
+            let adjusted = year * modifier
+            let selectedEndDate = HistoricalDate(month: month, year: adjusted)
+            
+            if selectedEndDate <= chosenStart {
+                endDateWarningLabel.text = "End must occur after start."
+                updateEndDateUI()
+                return false
+            } else {
+                endDateWarningLabel.text = ""
+                chosenEnd = selectedEndDate
+                updateEndDateUI()
+                return true
+            }
+        } else {
+            endDateWarningLabel.text = "Enter a valid year."
+            return false
+        }
     }
     
 }
@@ -725,5 +933,4 @@ class EraPickerView : UIPickerView, CustomPickerView {
     let count = 2
     let options = HistoricalDate.eras
 }
-
 

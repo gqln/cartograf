@@ -28,11 +28,16 @@ class LandingViewController: UIViewController, MKMapViewDelegate, UITableViewDel
         
         mapView.delegate = self
         mapView.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 16.62150306199443, longitude: 100.91160280586966), span: MKCoordinateSpan(latitudeDelta: 89.41729308033938, longitudeDelta: 141.9002645791514))
+        
+        mapsTableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        updateViewConstraints()
+        mapsTableView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
+            self.updateViewConstraints()
+        }
     }
     
     override func viewDidLayoutSubviews() {

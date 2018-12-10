@@ -14,17 +14,21 @@
         <attribute name="startInt32" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="elements" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Element" inverseName="map" inverseEntity="Element" syncable="YES"/>
     </entity>
-    <entity name="Path" representedClassName="Path" parentEntity="Element" syncable="YES">
-        <attribute name="sequence" optional="YES" attributeType="Transformable" syncable="YES"/>
+    <entity name="Path" representedClassName="Path" parentEntity="Element" syncable="YES" codeGenerationType="class">
+        <attribute name="sequence" optional="YES" attributeType="Transformable" customClassName="NSDictionary" syncable="YES">
+            <userInfo>
+                <entry key="attributeValueClassName" value="NSDictionary"/>
+            </userInfo>
+        </attribute>
     </entity>
-    <entity name="Point" representedClassName="Point" parentEntity="Element" syncable="YES">
+    <entity name="Point" representedClassName="Point" parentEntity="Element" syncable="YES" codeGenerationType="class">
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
         <element name="Element" positionX="-4620.53515625" positionY="-758.640625" width="128" height="120"/>
-        <element name="Map" positionX="-4767.34765625" positionY="-922.0078125" width="128" height="120"/>
-        <element name="Path" positionX="-4698" positionY="-810" width="128" height="60"/>
-        <element name="Point" positionX="-4644" positionY="-747" width="128" height="75"/>
+        <element name="Map" positionX="-4941.03125" positionY="-652.9296875" width="128" height="120"/>
+        <element name="Path" positionX="-4654.4453125" positionY="-453.65234375" width="128" height="60"/>
+        <element name="Point" positionX="-4332.96484375" positionY="-626.91015625" width="128" height="75"/>
     </elements>
 </model>

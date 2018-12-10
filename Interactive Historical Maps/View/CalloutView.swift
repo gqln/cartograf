@@ -23,7 +23,7 @@ class CalloutView : UIView {
 //    var delegate : MapDelegate?
     
     // Populate the callout's view elements upon setting properties
-    var element : MapEntity? {
+    var element : MapElement? {
         didSet {
             elementNameLabel.text = element!.name
             
@@ -31,11 +31,11 @@ class CalloutView : UIView {
             
             var coordinate : CLLocationCoordinate2D?
             switch element {
-            case is Point:
+            case is MapPoint:
                 let annotation = element as! MKAnnotation
                 coordinate = annotation.coordinate
-            case is Path:
-                let path = element as! Path
+            case is MapPath:
+                let path = element as! MapPath
                 coordinate = path.last().coordinate
             default:
                 break

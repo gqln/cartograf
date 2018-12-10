@@ -36,6 +36,26 @@ class HistoricalDate : CustomStringConvertible, Hashable {
         hasher.combine(self.rawValue)
     }
     
+    func change(year: Int) {
+        let month = rawMonth
+        let historicalDate = HistoricalDate(month: month, year: year)
+        self.rawValue = historicalDate.rawValue
+    }
+    
+    func change(month: Int) {
+        let year = rawYear
+        let historicalDate = HistoricalDate(month: month, year: year)
+        self.rawValue = historicalDate.rawValue
+    }
+    
+    func change(era: Int) {
+        let month = rawMonth
+        let year = Int(rawYear.magnitude)
+        let adjusted = era == 0 ? -1 * year : 1 * year
+        let historicalDate = HistoricalDate(month: month, year: adjusted)
+        self.rawValue = historicalDate.rawValue
+    }
+    
     var description: String { return "\(month) \(year)" }
     var copy: HistoricalDate { return HistoricalDate(self.rawValue) }
     var past: HistoricalDate { return HistoricalDate(self.rawValue - 48 * HistoricalDate.ticks) }

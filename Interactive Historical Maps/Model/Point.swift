@@ -8,42 +8,21 @@
 
 import Foundation
 import MapKit
+import CoreData
 
-class Point : MKPointAnnotation, MapEntity, MapElement, ValidDateRangeDelegate {
-    var name: String?
-    var start: HistoricalDate
-    var end: HistoricalDate
-    var new: Bool
+let model = Model.shared
+
+extension Point {
+
+    convenience init(from start: HistoricalDate, to end: HistoricalDate, at coordinate: CLLocationCoordinate2D) {
     
-    var calloutView : CalloutView!
-    
-    init(from start: HistoricalDate, to end: HistoricalDate, at coordinate: CLLocationCoordinate2D) {
+        let entity = NSEntityDescription.entity(forEntityName: "Point", in: model.context)!
         
-        self.start = start
-        self.end = end
-        self.new = false
-        super.init()
+        self.init(entity: entity, insertInto: model.context)
+        self.set(start: start)
+        self.set(end: end)
         
-        self.coordinate = coordinate
-    }
-    
-    func annotation(for date: HistoricalDate) -> MKAnnotation {
-        return self
-    }
-    
-    func isValid(end newEnd: HistoricalDate) -> (valid: Bool, message: String) {
-        if start < newEnd {
-            return (true, "")
-        } else {
-            return (false, "End must occur after start.")
-        }
-    }
-    
-    func isValid(start newStart: HistoricalDate) -> (valid: Bool, message: String) {
-        if newStart < end {
-            return (true, "")
-        } else {
-            return (false, "Start must occur before end.")
-        }
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
     }
 }

@@ -15,6 +15,7 @@ class Model {
     
     var maps : [Map]
     var date : HistoricalDate
+    var context : NSManagedObjectContext { return persistentContainer.viewContext }
     
     private init() {
         maps = []
@@ -25,7 +26,6 @@ class Model {
             maps = try persistentContainer.viewContext.fetch(request) as! [Map]
             
             for map in maps {
-                print(map.name!)
                 for element in map.elements!.allObjects {
                     print(element)
                 }
@@ -107,7 +107,7 @@ class Model {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                print("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
     }
