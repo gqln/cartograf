@@ -18,10 +18,21 @@ class LandingViewController: UIViewController, MKMapViewDelegate, UITableViewDel
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     var selectedMapIndex : Int?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // Adding Prepopulated Map
+        let isFirstLaunch = UserDefaults.standard.bool(forKey: "launchedBefore")
+        
+        if isFirstLaunch {
+            let index = model.addMap()
+            let map = model.maps[index]
+            map.name = "Cities"
+            
+            MapPoint(from: HistoricalDate(month: 3, year: 0), to: HistoricalDate(month: 9, year: 1999), at: CLLocationCoordinate2D(latitude: 39.295679688615465, longitude: -99.15251449157718), on: map)
+        }
+        
         mapsTableView.separatorStyle = .none
         mapsTableView.dataSource = self
         mapsTableView.delegate = self

@@ -476,13 +476,13 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         switch mode {
         case .viewing:
             deleteEntityButton.isEnabled = true
-            deleteEntityButton.titleLabel?.text = "Delete Map"
+            deleteEntityButton.setTitle("Delete Map", for: .normal)
         case .addingPath, .editingPath:
             deleteEntityButton.isEnabled = (path != nil)
-            deleteEntityButton.titleLabel?.text = "Delete Path"
+            deleteEntityButton.setTitle("Delete Path", for: .normal)
         case .addingPoint, .editingPoint:
             deleteEntityButton.isEnabled = (selectedPoint != nil)
-            deleteEntityButton.titleLabel?.text = "Delete Point"
+            deleteEntityButton.setTitle("Delete Point", for: .normal)
         }
         updateUI()
     }
