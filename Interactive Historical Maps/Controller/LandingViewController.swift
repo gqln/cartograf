@@ -25,7 +25,7 @@ class LandingViewController: UIViewController, MKMapViewDelegate, UITableViewDel
         // Adding Prepopulated Map
         let map = model.maps.last!
         
-        if (map.name == "Cities") {
+        if (map.name == "Cities" && map.points.count < 5) {
             MapPoint(from: HistoricalDate(month: 4, year: 1782), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 13.7542529, longitude: 100.493087), on: map).name = "Bangkok, Thailand"
             
             MapPoint(from: HistoricalDate(month: 6, year: 1840), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 22.5445697, longitude: 114.0545346), on: map).name = "Shenzhen, China"
@@ -65,6 +65,34 @@ class LandingViewController: UIViewController, MKMapViewDelegate, UITableViewDel
             MapPoint(from: HistoricalDate(month: 9, year: 1589), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 48.8566101, longitude: 2.3514992), on: map).name = "Paris, France"
             
             MapPoint(from: HistoricalDate(month: 10, year: 1840), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: -36.8534665, longitude: 174.7655514), on: map).name = "Auckland, New Zealand"
+            
+            MapPoint(from: HistoricalDate(month: 5, year: 1802), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: -36.8534665, longitude: -36.8534665), on: map).name = "Tokyo, Japan"
+            
+            MapPoint(from: HistoricalDate(month: 7, year: 1834), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: -36.3789925, longitude: -60.3855889), on: map).name = "Buenos Aires, Argentina"
+            
+            MapPoint(from: HistoricalDate(month: 7, year: 1683), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 39.1235635, longitude: 117.1980785), on: map).name = "Tianjin, China"
+            
+            MapPoint(from: HistoricalDate(month: 9, year: 1742), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 14.5906216, longitude: 120.9799696), on: map).name = "Manila, Philippines"
+            
+            MapPoint(from: HistoricalDate(month: 8, year: 1854), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 23.7593572, longitude: 90.3788136), on: map).name = "Dhaka, Bangladesh"
+            
+            MapPoint(from: HistoricalDate(month: 3, year: 1620), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 41.0096334, longitude: 28.9651646), on: map).name = "Istanbul, Turkey"
+            
+            MapPoint(from: HistoricalDate(month: 1, year: 1453), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 30.5941299, longitude: 114.2984414), on: map).name = "Wuhan, China"
+            
+            MapPoint(from: HistoricalDate(month: 7, year: 1392), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: -12.0621065, longitude: -77.0365256), on: map).name = "Lima, Peru"
+            
+            MapPoint(from: HistoricalDate(month: 0, year: 1432), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 35.7006177, longitude: 51.4013785), on: map).name = "Tehran, Iran"
+            
+            MapPoint(from: HistoricalDate(month: 9, year: 1302), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 33.3024309, longitude: 44.3787992), on: map).name = "Baghdad, Iraq"
+            
+            MapPoint(from: HistoricalDate(month: 5, year:1350), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: -6.1753942, longitude: 106.827183), on: map).name = "Jakarta, Indonesia"
+            
+            MapPoint(from: HistoricalDate(month: 4, year: 1840), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 37.5666791, longitude: 126.9782914), on: map).name = "Seoul, South Korea"
+            
+            MapPoint(from: HistoricalDate(month: 2, year: 1305), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: -23.5506507, longitude: -46.6333824), on: map).name = "Sao Paulo, Brazil"
+            
+            MapPoint(from: HistoricalDate(month: 5, year: 1504), to: HistoricalDate(month: 11, year: 2018), at: CLLocationCoordinate2D(latitude: 12.971599, longitude: 77.594566), on: map).name = "Bangalore, India"
         }
         
         mapsTableView.separatorStyle = .none

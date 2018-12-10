@@ -84,6 +84,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         case .addingPoint, .addingPath:
             inspect(map)
             change(to: .viewing)
+            mapView.deselectAnnotation(selectedPoint, animated: true)
         case .editingPoint, .editingPath:
             inspect(map)
             change(to: .viewing)
@@ -124,6 +125,10 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         case .addingPoint, .editingPoint:
             if selectedPoint != nil {
                 model.context.delete(selectedPoint.point)
+                let index = points.firstIndex(of: selectedPoint)
+                if index != nil {
+                    points.remove(at: index!)
+                }
                 mapView.removeAnnotation(selectedPoint)
                 updateMap()
                 change(to: .viewing)
