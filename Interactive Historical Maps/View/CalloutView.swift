@@ -19,9 +19,6 @@ class CalloutView : UIView {
     // Unused (for now)
     @IBOutlet weak var infoButton: UIButton!
     
-    // MapView which contains annotation presents action sheets triggered by buttons
-//    var delegate : MapDelegate?
-    
     // Populate the callout's view elements upon setting properties
     var element : MapElement? {
         didSet {

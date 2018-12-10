@@ -202,10 +202,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GVf-SN-9mZ">
-                                <rect key="frame" x="0.0" y="0.0" width="1112" height="784"/>
-                            </mapView>
-                            <button hidden="YES" opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c07-1k-cDr">
+                            <button hidden="YES" opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c07-1k-cDr">
                                 <rect key="frame" x="642.5" y="20" width="150" height="35"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -238,7 +235,7 @@
                                     <action selector="doneClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yB8-CB-KWo"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="izs-YX-OjH">
+                            <button opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="izs-YX-OjH">
                                 <rect key="frame" x="10" y="20" width="150" height="35"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
@@ -264,7 +261,7 @@
                                     <action selector="addPoints:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JFz-NP-D0T"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rUS-fH-bBp">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rUS-fH-bBp">
                                 <rect key="frame" x="10" y="734" width="782.5" height="40"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7lE-X9-5ox">
@@ -296,7 +293,7 @@
                                             <constraint firstItem="1gU-re-vy5" firstAttribute="centerX" secondItem="7lE-X9-5ox" secondAttribute="centerX" id="y3U-32-jWv"/>
                                         </constraints>
                                     </view>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="2AY-zX-qji">
+                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="2AY-zX-qji">
                                         <rect key="frame" x="123" y="5" width="636.5" height="31"/>
                                         <color key="minimumTrackTintColor" red="0.98431372549999996" green="0.0098851779789999993" blue="0.54627446739999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="maximumTrackTintColor" red="0.98431372549999996" green="0.0098851779789999993" blue="0.54627446739999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -541,7 +538,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </scrollView>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jT5-jE-hie">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jT5-jE-hie">
                                 <rect key="frame" x="170" y="20" width="150" height="35"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -571,12 +568,12 @@
                                     <action selector="addPath:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wKu-ba-pjB"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ibn Battuta's Rihla" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yqj-NQ-GZ3">
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Ibn Battuta's Rihla" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yqj-NQ-GZ3">
                                 <rect key="frame" x="10" y="703" width="142" height="21"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="akR-Nc-q0u">
+                            <button opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="akR-Nc-q0u">
                                 <rect key="frame" x="757.5" y="689" width="35" height="35"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -608,10 +605,8 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="GVf-SN-9mZ" secondAttribute="trailing" id="1y6-pZ-5bq"/>
                             <constraint firstItem="akR-Nc-q0u" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yqj-NQ-GZ3" secondAttribute="trailing" constant="8" symbolic="YES" id="98j-le-Tsc"/>
                             <constraint firstItem="rUS-fH-bBp" firstAttribute="top" secondItem="yqj-NQ-GZ3" secondAttribute="bottom" constant="10" id="9UF-Mv-0yr"/>
-                            <constraint firstItem="GVf-SN-9mZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-20" id="BRk-tK-p40"/>
                             <constraint firstItem="rOx-7X-mUf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="DtY-6s-MLM"/>
                             <constraint firstItem="c07-1k-cDr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="jT5-jE-hie" secondAttribute="trailing" constant="8" symbolic="YES" id="HHi-zu-Mb1"/>
                             <constraint firstItem="rOx-7X-mUf" firstAttribute="leading" secondItem="c07-1k-cDr" secondAttribute="trailing" constant="10" id="IuQ-UB-aRB"/>
@@ -619,18 +614,11 @@
                             <constraint firstItem="rUS-fH-bBp" firstAttribute="top" secondItem="akR-Nc-q0u" secondAttribute="bottom" constant="10" id="RVa-EI-Tqo"/>
                             <constraint firstItem="yqj-NQ-GZ3" firstAttribute="leading" secondItem="rUS-fH-bBp" secondAttribute="leading" id="UEx-ce-ln7"/>
                             <constraint firstItem="rOx-7X-mUf" firstAttribute="leading" secondItem="akR-Nc-q0u" secondAttribute="trailing" constant="10" id="UkR-fT-v38"/>
-                            <constraint firstItem="izs-YX-OjH" firstAttribute="leading" secondItem="GVf-SN-9mZ" secondAttribute="leading" constant="10" id="Wd4-Wz-UTp"/>
-                            <constraint firstItem="c07-1k-cDr" firstAttribute="top" secondItem="GVf-SN-9mZ" secondAttribute="top" constant="20" id="Wwo-Nb-4gX"/>
                             <constraint firstItem="jT5-jE-hie" firstAttribute="bottom" secondItem="izs-YX-OjH" secondAttribute="bottom" id="X4y-QB-2TI"/>
-                            <constraint firstItem="rUS-fH-bBp" firstAttribute="leading" secondItem="GVf-SN-9mZ" secondAttribute="leading" constant="10" id="XPS-BK-YeR"/>
-                            <constraint firstItem="GVf-SN-9mZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="akE-9E-EpU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rOx-7X-mUf" secondAttribute="trailing" constant="10" id="b9h-C6-U1J"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rOx-7X-mUf" secondAttribute="bottom" constant="10" id="cmE-IG-HNn"/>
-                            <constraint firstItem="GVf-SN-9mZ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="eK3-ie-zMH"/>
-                            <constraint firstItem="rUS-fH-bBp" firstAttribute="bottom" secondItem="GVf-SN-9mZ" secondAttribute="bottom" constant="-10" id="gUa-oN-9oV"/>
                             <constraint firstItem="akR-Nc-q0u" firstAttribute="height" secondItem="izs-YX-OjH" secondAttribute="height" id="o57-oc-fhe"/>
                             <constraint firstItem="rOx-7X-mUf" firstAttribute="leading" secondItem="rUS-fH-bBp" secondAttribute="trailing" constant="10" id="pcV-Yr-jSi"/>
-                            <constraint firstItem="GVf-SN-9mZ" firstAttribute="top" secondItem="izs-YX-OjH" secondAttribute="top" constant="-20" id="txg-BA-0XA"/>
                             <constraint firstItem="izs-YX-OjH" firstAttribute="height" secondItem="jT5-jE-hie" secondAttribute="height" id="v9Z-ij-imB"/>
                             <constraint firstItem="jT5-jE-hie" firstAttribute="leading" secondItem="izs-YX-OjH" secondAttribute="trailing" constant="10" id="vPP-jW-2cK"/>
                         </constraints>
@@ -779,6 +767,10 @@ Use callouts to edit map elements.</string>
                                                     <action selector="dismissClicked:" destination="hDZ-Jp-2xD" eventType="touchUpInside" id="pRD-zJ-9i7"/>
                                                 </connections>
                                             </button>
+                                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GVf-SN-9mZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="1112" height="784"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </mapView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
