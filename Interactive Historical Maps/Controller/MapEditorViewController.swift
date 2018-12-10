@@ -448,10 +448,6 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         change(to: .addingPoint)
     }
     
-//    func add(element: MapElement) {
-//        elements.append(element)
-//    }
-    
     func add(point: MapPoint) {
         points.append(point)
     }
@@ -747,17 +743,6 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
     }
     
     // MARK: - TextField
-    
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        inspectorView.frame = CGRect(x: 0, y: -110, width: 300, height: 834)
-//        return true
-//    }
-//
-//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-//        inspectorView.frame = CGRect(x: 0, y: 0, width: 300, height: 834)
-//        self.view.endEditing(true)
-//        return true
-//    }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if string.count == 0 {

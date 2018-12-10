@@ -27,21 +27,6 @@ class MapPath: MapElement {
     
     init(with path: Path) {
         self.path = path
-//        let rawDictionary = path.sequence!
-//
-//        for pair in rawDictionary {
-//            let date = pair.key as! Int
-//            let points = pair.value as! [(Double, Double)]
-//            print(date, points)
-//
-//            let coordinates = points.map { (arg0) -> CLLocationCoordinate2D in
-//                let (x, y) = arg0
-//                return CLLocationCoordinate2D(latitude: x, longitude: y)
-//            }
-//
-//            sequence[date] = MKPolyline(coordinates: coordinates, count: coordinates.count)
-//        }
-        
         self.textDescription = path.textDescription != nil ? path.textDescription! : ""
     }
     

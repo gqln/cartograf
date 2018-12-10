@@ -42,11 +42,11 @@ class Model {
                 
                 maps[0].set(start: HistoricalDate(month: 8, year: 1332))
                 maps[1].set(start: HistoricalDate(month: 3, year: 1955))
-                maps[2].set(start: HistoricalDate(month: 0, year: 1900))
+                maps[2].set(start: HistoricalDate(month: 0, year: 1200))
                 
                 maps[0].set(end: HistoricalDate(month: 9, year: 1346))
                 maps[1].set(end: HistoricalDate(month: 11, year: 2018))
-                maps[2].set(end: HistoricalDate(month: 11, year: 1999))
+                maps[2].set(end: HistoricalDate(month: 11, year: 2018))
             }
             
         } catch {
