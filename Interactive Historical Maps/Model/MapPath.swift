@@ -21,7 +21,7 @@ class MapPath: MapElement {
     
     var justAdded : MKOverlay?
     
-    var textDescription: String {
+    var textDescription: String? {
         didSet { path.textDescription = textDescription }
     }
     
@@ -75,8 +75,6 @@ class MapPath: MapElement {
             key <= date.rawValue
         }
         
-        // FIX ERROR, return optional
-        
         if keys.count > 0 {
             let last = keys.last!
             return sequence[last]!
@@ -115,21 +113,6 @@ class MapPath: MapElement {
     
     func end(on date: HistoricalDate) {
         self.path.set(end: date)
-        
-//        let codableDictionary = self.sequence.mapValues { (annotation) -> [(Double, Double)] in
-//            let polyline = annotation as! MKPolyline
-//            let pointBuffer = polyline.points()
-//            let pointBufferCount = polyline.pointCount
-//
-//            var points = [(Double, Double)]()
-//            for i in 0..<pointBufferCount {
-//                points.append((pointBuffer[i].x, pointBuffer[i].y))
-//            }
-//            return points
-//        }
-
-//        let nsdictionary = NSDictionary(dictionary: codableDictionary)
-//        self.path.sequence = nsdictionary
     }
 
 }

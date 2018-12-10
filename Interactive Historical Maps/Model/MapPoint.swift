@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 
 class MapPoint: MKPointAnnotation, MapElement {
-    // You need some outer wrapping class through model
+
     var name: String? { didSet { point.name = name } }
     var new: Bool = false
     
@@ -20,7 +20,7 @@ class MapPoint: MKPointAnnotation, MapElement {
     var start : HistoricalDate { didSet { point.startInt32 = start.rawInt32 } }
     var end : HistoricalDate { didSet { point.endInt32 = end.rawInt32 } }
     
-    var textDescription: String {
+    var textDescription: String? {
         didSet { point.textDescription = textDescription }
     }
     
@@ -28,7 +28,6 @@ class MapPoint: MKPointAnnotation, MapElement {
         didSet {
             point.latitude = coordinate.latitude
             point.longitude = coordinate.longitude
-            print(coordinate)
         }
     }
     

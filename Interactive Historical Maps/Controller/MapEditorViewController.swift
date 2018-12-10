@@ -17,7 +17,7 @@ enum MapMode : String {
     case editingPath = "Editing Path"
 }
 
-class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, EditorViewController {
+class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, UITextViewDelegate, EditorViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -201,6 +201,9 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+       
+        entityDescriptionTextView.delegate = self
+        
         slider.minimumValue = Float(earliest.rawValue)
         slider.maximumValue = Float(latest.rawValue)
         slider.value = Float(date.rawValue)
@@ -215,6 +218,10 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         inspectorScrollView.bounds.size = inspectorView.frame.size
         
         print(inspectorScrollView.contentSize, inspectorView.frame.size)
+    }
+    
+    @objc func updateDescriptionForElement(notification: Notification) {
+        
     }
     
     @objc func keyboardWillShow(notification:Notification) {
@@ -403,6 +410,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
             case .addingPoint, .editingPoint:
                 (view as! MKPinAnnotationView).pinTintColor = MKPinAnnotationView.greenPinColor()
                 inspect(point)
+                change(to: mode)
             case .editingPath:
                 break
             }
@@ -458,6 +466,8 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
             chosenStart = entity.start
             chosenEnd = entity.end
             
+            entityDescriptionTextView.text = entity.textDescription
+            
             updateStartDateUI()
             updateEndDateUI()
         } else {
@@ -477,12 +487,15 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         case .viewing:
             deleteEntityButton.isEnabled = true
             deleteEntityButton.setTitle("Delete Map", for: .normal)
+            inspectorNameFieldTitleLabel.text = "Map Name"
         case .addingPath, .editingPath:
             deleteEntityButton.isEnabled = (path != nil)
             deleteEntityButton.setTitle("Delete Path", for: .normal)
+            inspectorNameFieldTitleLabel.text = "Path Name"
         case .addingPoint, .editingPoint:
             deleteEntityButton.isEnabled = (selectedPoint != nil)
             deleteEntityButton.setTitle("Delete Point", for: .normal)
+            inspectorNameFieldTitleLabel.text = "Point Name"
         }
         updateUI()
     }
@@ -914,6 +927,22 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         } else {
             endDateWarningLabel.text = "Enter a valid year."
             return false
+        }
+    }
+    
+    func textViewDidEndEditing(_ sender: UITextView) {
+        let text = sender.text!
+        switch mode {
+        case .viewing:
+            map.textDescription = text
+            inspect(map)
+        case .editingPath, .addingPath:
+            path?.textDescription = text
+            inspect(path)
+        case .editingPoint, .addingPoint:
+            selectedPoint?.textDescription = text
+            selectedPoint?.calloutView.element = selectedPoint
+            inspect(selectedPoint)
         }
     }
     

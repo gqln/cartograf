@@ -27,35 +27,32 @@ class Model {
         do {
             maps = try persistentContainer.viewContext.fetch(request) as! [Map]
             
-            for map in maps {
-                for element in map.elements!.allObjects {
-                    print(element)
-                }
+            if maps.count < 3 {
+                maps.append(Map(context: persistentContainer.viewContext))
+                maps.append(Map(context: persistentContainer.viewContext))
+                maps.append(Map(context: persistentContainer.viewContext))
+                
+                maps[0].name = "Ibn Battuta's Rihla"
+                maps[1].name = "The Origins of the Golden Arches"
+                maps[2].name = "Cities"
+                
+                maps[0].author = "Jyoti Balachandran"
+                maps[1].author = "Ronald McDonald"
+                maps[2].author = "Gokulan Gnanendran"
+                
+                maps[0].set(start: HistoricalDate(month: 8, year: 1332))
+                maps[1].set(start: HistoricalDate(month: 3, year: 1955))
+                maps[2].set(start: HistoricalDate(month: 0, year: 1900))
+                
+                maps[0].set(end: HistoricalDate(month: 9, year: 1346))
+                maps[1].set(end: HistoricalDate(month: 11, year: 2018))
+                maps[2].set(end: HistoricalDate(month: 11, year: 1999))
             }
             
         } catch {
             print("Error")
             maps = []
         }
-        maps.append(Map(context: persistentContainer.viewContext))
-        maps.append(Map(context: persistentContainer.viewContext))
-        maps.append(Map(context: persistentContainer.viewContext))
-        
-        maps[0].name = "Ibn Battuta's Rihla"
-        maps[1].name = "The Origins of the Golden Arches"
-        maps[2].name = "The Last Century"
-        
-        maps[0].author = "Jyoti Balachandran"
-        maps[1].author = "Ronald McDonald"
-        maps[2].author = "Gokulan Gnanendran"
-        
-        maps[0].set(start: HistoricalDate(month: 8, year: 1332))
-        maps[1].set(start: HistoricalDate(month: 3, year: 1955))
-        maps[2].set(start: HistoricalDate(month: 0, year: 1900))
-        
-        maps[0].set(end: HistoricalDate(month: 9, year: 1346))
-        maps[1].set(end: HistoricalDate(month: 11, year: 2018))
-        maps[2].set(end: HistoricalDate(month: 11, year: 1999))
         
         self.saveContext()
     }

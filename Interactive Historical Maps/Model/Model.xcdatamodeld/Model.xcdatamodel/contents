@@ -12,6 +12,7 @@
         <attribute name="endInt32" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startInt32" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="textDescription" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="elements" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Element" inverseName="map" inverseEntity="Element" syncable="YES"/>
     </entity>
     <entity name="Path" representedClassName="Path" parentEntity="Element" syncable="YES" codeGenerationType="class">
@@ -27,7 +28,7 @@
     </entity>
     <elements>
         <element name="Element" positionX="-4620.53515625" positionY="-758.640625" width="128" height="120"/>
-        <element name="Map" positionX="-4941.03125" positionY="-652.9296875" width="128" height="120"/>
+        <element name="Map" positionX="-4941.03125" positionY="-652.9296875" width="128" height="135"/>
         <element name="Path" positionX="-4654.4453125" positionY="-453.65234375" width="128" height="60"/>
         <element name="Point" positionX="-4332.96484375" positionY="-626.91015625" width="128" height="75"/>
     </elements>

@@ -16,7 +16,6 @@
 		EB431B2021BDAED100AE1519 /* InspectorScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB431B1F21BDAED100AE1519 /* InspectorScrollView.swift */; };
 		EB66818F21BDD29C005F46B4 /* MapPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66818E21BDD29C005F46B4 /* MapPoint.swift */; };
 		EB66819121BDD2A1005F46B4 /* MapPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66819021BDD2A1005F46B4 /* MapPath.swift */; };
-		EB66819321BDEFAE005F46B4 /* MKPolyline+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB66819221BDEFAE005F46B4 /* MKPolyline+Codable.swift */; };
 		EB81A5D521A9029A009C3792 /* MapEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5D421A9029A009C3792 /* MapEntity.swift */; };
 		EB81A5DB21ABA201009C3792 /* CalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB81A5D921ABA201009C3792 /* CalloutView.xib */; };
 		EB81A5DC21ABA201009C3792 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81A5DA21ABA201009C3792 /* CalloutView.swift */; };
@@ -56,7 +55,6 @@
 		EB431B1F21BDAED100AE1519 /* InspectorScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorScrollView.swift; sourceTree = "<group>"; };
 		EB66818E21BDD29C005F46B4 /* MapPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPoint.swift; sourceTree = "<group>"; };
 		EB66819021BDD2A1005F46B4 /* MapPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPath.swift; sourceTree = "<group>"; };
-		EB66819221BDEFAE005F46B4 /* MKPolyline+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPolyline+Codable.swift"; sourceTree = "<group>"; };
 		EB81A5D421A9029A009C3792 /* MapEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEntity.swift; sourceTree = "<group>"; };
 		EB81A5D921ABA201009C3792 /* CalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalloutView.xib; sourceTree = "<group>"; };
 		EB81A5DA21ABA201009C3792 /* CalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 				EB917D4C21B49EF4009D5953 /* Model.swift */,
 				EB917D4E21B49EF4009D5953 /* Model.xcdatamodeld */,
 				EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */,
-				EB66819221BDEFAE005F46B4 /* MKPolyline+Codable.swift */,
 				EB81A5D421A9029A009C3792 /* MapEntity.swift */,
 				EBFB40FC21B4A89D0088DAC4 /* Point.swift */,
 				EBFB40FE21B4A8A70088DAC4 /* Path.swift */,
@@ -287,7 +284,6 @@
 			files = (
 				EB431B1821BC9CC900AE1519 /* AudioRecordingViewController.swift in Sources */,
 				EBF3948A218D0B000038CE18 /* MapEditorViewController.swift in Sources */,
-				EB66819321BDEFAE005F46B4 /* MKPolyline+Codable.swift in Sources */,
 				EB81A5DE21ABAE1C009C3792 /* HistoricalDate.swift in Sources */,
 				EBFB410121B4B83A0088DAC4 /* LandingViewController.swift in Sources */,
 				EB431B1A21BC9CFC00AE1519 /* AudioIntegrationViewController.swift in Sources */,

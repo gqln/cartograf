@@ -13,6 +13,7 @@ protocol MapEntity {
     var name : String? { get set }
     var start : HistoricalDate { get }
     var end : HistoricalDate { get }
+    var textDescription : String? { get set }
 }
 
 protocol MapElement : MapEntity {

@@ -23,14 +23,10 @@ class LandingViewController: UIViewController, MKMapViewDelegate, UITableViewDel
         super.viewDidLoad()
         
         // Adding Prepopulated Map
-        let isFirstLaunch = UserDefaults.standard.bool(forKey: "launchedBefore")
+        let map = model.maps.last!
         
-        if isFirstLaunch {
-            let index = model.addMap()
-            let map = model.maps[index]
-            map.name = "Cities"
-            
-            MapPoint(from: HistoricalDate(month: 3, year: 0), to: HistoricalDate(month: 9, year: 1999), at: CLLocationCoordinate2D(latitude: 39.295679688615465, longitude: -99.15251449157718), on: map)
+        if (map.name == "Cities") {
+            MapPoint(from: HistoricalDate(month: 3, year: 0), to: HistoricalDate(month: 9, year: 1999), at: CLLocationCoordinate2D(latitude: 39.295679688615465, longitude: -99.15251449157718), on: map).name = "a"
         }
         
         mapsTableView.separatorStyle = .none
