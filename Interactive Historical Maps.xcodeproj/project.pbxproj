@@ -98,6 +98,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+<<<<<<< HEAD
 		EB66819421BE24C4005F46B4 /* MapElements */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +120,30 @@
 			);
 			path = CoreData;
 			sourceTree = "<group>";
+=======
+		EB44797921BE2729005A63B8 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				EB917D4D21B49EF4009D5953 /* Map.swift */,
+				EB917D4E21B49EF4009D5953 /* Model.xcdatamodeld */,
+				EBFB40FC21B4A89D0088DAC4 /* Point.swift */,
+				EBFB40FE21B4A8A70088DAC4 /* Path.swift */,
+			);
+			name = CoreData;
+			path = "Interactive Historical Maps/Model/CoreData";
+			sourceTree = SOURCE_ROOT;
+		};
+		EB44797A21BE2731005A63B8 /* MapElements */ = {
+			isa = PBXGroup;
+			children = (
+				EB81A5D421A9029A009C3792 /* MapEntity.swift */,
+				EB66818E21BDD29C005F46B4 /* MapPoint.swift */,
+				EB66819021BDD2A1005F46B4 /* MapPath.swift */,
+			);
+			name = MapElements;
+			path = "Interactive Historical Maps/Model/MapElements";
+			sourceTree = SOURCE_ROOT;
+>>>>>>> tmp
 		};
 		EB81A5D621ABA1D6009C3792 /* View */ = {
 			isa = PBXGroup;
@@ -136,9 +161,15 @@
 		EB81A5D721ABA1DB009C3792 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				EB917D4C21B49EF4009D5953 /* Model.swift */,
 				EB66819521BE24D4005F46B4 /* CoreData */,
 				EB66819421BE24C4005F46B4 /* MapElements */,
+=======
+				EB44797A21BE2731005A63B8 /* MapElements */,
+				EB44797921BE2729005A63B8 /* CoreData */,
+				EB917D4C21B49EF4009D5953 /* Model.swift */,
+>>>>>>> tmp
 				EB81A5DD21ABAE1C009C3792 /* HistoricalDate.swift */,
 			);
 			path = Model;
