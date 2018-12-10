@@ -432,7 +432,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
             selectedPoint = nil
             inspect(map)
             (view as! MKPinAnnotationView).pinTintColor = MKPinAnnotationView.redPinColor()
-            if mode == .editingPoint {
+            if mode == .editingPoint || mode == .addingPoint {
                 change(to: .viewing)
             }
         default:
@@ -699,11 +699,11 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
             case .editingPoint, .addingPoint:
                 
                 self.chosenStart.change(era: row)
-                if attemptUpdateStartDate() {
+                if attemptUpdateStartDate() && selectedPoint != nil {
                     
-                selectedPoint.start.change(era: row)
-                selectedPoint.calloutView.element = selectedPoint
-                inspect(selectedPoint)
+                    selectedPoint.start.change(era: row)
+                    selectedPoint.calloutView.element = selectedPoint
+                    inspect(selectedPoint)
                 }
                 break
             case .editingPath:
