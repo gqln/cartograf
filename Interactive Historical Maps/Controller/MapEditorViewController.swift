@@ -216,8 +216,6 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         super.viewDidAppear(animated)
         inspectorScrollView.contentSize = inspectorView.frame.size
         inspectorScrollView.bounds.size = inspectorView.frame.size
-        
-        print(inspectorScrollView.contentSize, inspectorView.frame.size)
     }
     
     @objc func updateDescriptionForElement(notification: Notification) {
@@ -245,6 +243,7 @@ class MapEditorViewController: UIViewController, MKMapViewDelegate, UIPickerView
         inspectorScrollView.bounds.size = inspectorView.frame.size
         inspectorScrollView.contentInset = UIEdgeInsets.zero
         inspectorScrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+        inspectorScrollView.setContentOffset(CGPoint.zero, animated: true)
     }
     
     let touchView = TouchView(frame: CGRect.zero)
